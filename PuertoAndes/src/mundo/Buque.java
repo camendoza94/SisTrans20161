@@ -8,7 +8,7 @@ public class Buque {
 	private String nombreAgente;
 	private Integer capacidad;
 	private Boolean lleno;
-	private Mercancia carga;
+	private Mercancia tipoCarga;
 	private Date fechaIngreso;
 	private Date fechaSalida;
 	private String registroCapitania;
@@ -46,10 +46,10 @@ public class Buque {
 		this.lleno = lleno;
 	}
 	public Mercancia getCarga() {
-		return carga;
+		return tipoCarga;
 	}
 	public void setCarga(Mercancia carga) {
-		this.carga = carga;
+		this.tipoCarga = carga;
 	}
 	public Date getFechaIngreso() {
 		return fechaIngreso;

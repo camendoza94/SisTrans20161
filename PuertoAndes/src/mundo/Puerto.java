@@ -11,6 +11,7 @@ public class Puerto {
 	private ArrayList<Equipo> equipos;
 	private ArrayList<Camion> camiones;
 	private ArrayList<Muelle> muelles;
+	private ArrayList<Buque> buques;
 	
 	public String getIdPuerto() {
 		return idPuerto;
@@ -59,5 +60,11 @@ public class Puerto {
 	}
 	public void setMuelles(ArrayList<Muelle> muelles) {
 		this.muelles = muelles;
+	}
+	public ArrayList<Buque> getBuques() {
+		return buques;
+	}
+	public void setBuques(ArrayList<Buque> buques) {
+		this.buques = buques;
 	}	
 }
