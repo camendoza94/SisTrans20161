@@ -2,7 +2,7 @@ package mundo;
 
 public class Silo {
 	private String nombre;
-	private Float capacidad;
+	private float capacidad;
 	
 	public String getNombre() {
 		return nombre;
@@ -10,10 +10,10 @@ public class Silo {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Float getCapacidad() {
+	public float getCapacidad() {
 		return capacidad;
 	}
-	public void setCapacidad(Float capacidad) {
+	public void setCapacidad(float capacidad) {
 		this.capacidad = capacidad;
 	}
 }

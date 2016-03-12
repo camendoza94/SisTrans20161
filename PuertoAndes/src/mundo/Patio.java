@@ -1,13 +1,13 @@
 package mundo;
 
 public class Patio extends AreaAlmacenamiento{
-	private Float dimension;
+	private float dimension;
 	private String tipoCarga;
 	
-	public Float getDimension() {
+	public float getDimension() {
 		return dimension;
 	}
-	public void setDimension(Float dimension) {
+	public void setDimension(float dimension) {
 		this.dimension = dimension;
 	}
 	public String getTipoCarga() {

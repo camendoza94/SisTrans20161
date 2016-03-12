@@ -1,16 +1,16 @@
 package mundo;
 
 public class Equipo {
-	private Integer id;
+	private int id;
 	private String nombre;
-	private Float precio;
-	private Integer capacidad;
-	private Boolean disponible;
+	private float precio;
+	private float capacidad;
+	private boolean disponible;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getNombre() {
@@ -19,22 +19,22 @@ public class Equipo {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Float getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
-	public void setPrecio(Float precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-	public Integer getCapacidad() {
+	public float getCapacidad() {
 		return capacidad;
 	}
-	public void setCapacidad(Integer capacidad) {
+	public void setCapacidad(float capacidad) {
 		this.capacidad = capacidad;
 	}
-	public Boolean getDisponible() {
+	public boolean getDisponible() {
 		return disponible;
 	}
-	public void setDisponible(Boolean disponible) {
+	public void setDisponible(boolean disponible) {
 		this.disponible = disponible;
 	}	
 }

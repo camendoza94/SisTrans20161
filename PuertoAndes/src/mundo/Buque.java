@@ -7,11 +7,11 @@ public class Buque {
 	public enum tipoBuque{
 		RORO, PORTACONTENEDORES, MULTIPROPOSITO;
 	}
-	private Integer id;
+	private int id;
 	private String nombre;
 	private String nombreAgente;
-	private Integer capacidad;
-	private Boolean lleno;
+	private float capacidad;
+	private boolean lleno;
 	private Mercancia tipoCarga; //Revisar
 	private Date fechaIngreso;
 	private Date fechaSalida;
@@ -21,10 +21,10 @@ public class Buque {
 	private tipoBuque tipo;
 	private ArrayList<Mercancia> mercancias;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getNombre() {
@@ -39,16 +39,16 @@ public class Buque {
 	public void setNombreAgente(String nombreAgente) {
 		this.nombreAgente = nombreAgente;
 	}
-	public Integer getCapacidad() {
+	public float getCapacidad() {
 		return capacidad;
 	}
-	public void setCapacidad(Integer capacidad) {
+	public void setCapacidad(float capacidad) {
 		this.capacidad = capacidad;
 	}
-	public Boolean getLleno() {
+	public boolean getLleno() {
 		return lleno;
 	}
-	public void setLleno(Boolean lleno) {
+	public void setLleno(boolean lleno) {
 		this.lleno = lleno;
 	}
 	public Date getFechaIngreso() {

@@ -10,15 +10,15 @@ public class Usuario {
 		OPERADOR_PORTUARIO; 
 	}
 	
-	private Integer id; //String?
+	private int id; //String?
 	private String nombre;
 	private tipoPersona tipoPersona;
 	private tipoUsuario tipoUsuario;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getNombre() {

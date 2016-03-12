@@ -3,14 +3,14 @@ package mundo;
 import java.util.ArrayList;
 
 public class Camion {
-	private Integer id;
+	private int id;
 	private String nombre;
 	private ArrayList<Mercancia> mercancias;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getNombre() {

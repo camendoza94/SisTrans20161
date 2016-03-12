@@ -1,32 +1,32 @@
 package mundo;
 
 public class CuartoFrio {
-	private Float ancho;
-	private Float largo;
-	private Float altura;
-	private Integer porcentajeBodega;
-	public Float getAncho() {
+	private float ancho;
+	private float largo;
+	private float altura;
+	private float porcentajeBodega;
+	public float getAncho() {
 		return ancho;
 	}
-	public void setAncho(Float ancho) {
+	public void setAncho(float ancho) {
 		this.ancho = ancho;
 	}
-	public Float getLargo() {
+	public float getLargo() {
 		return largo;
 	}
-	public void setLargo(Float largo) {
+	public void setLargo(float largo) {
 		this.largo = largo;
 	}
-	public Float getAltura() {
+	public float getAltura() {
 		return altura;
 	}
-	public void setAltura(Float altura) {
+	public void setAltura(float altura) {
 		this.altura = altura;
 	}
-	public Integer getPorcentajeBodega() {
+	public float getPorcentajeBodega() {
 		return porcentajeBodega;
 	}
-	public void setPorcentajeBodega(Integer porcentajeBodega) {
+	public void setPorcentajeBodega(float porcentajeBodega) {
 		this.porcentajeBodega = porcentajeBodega;
 	}
 }

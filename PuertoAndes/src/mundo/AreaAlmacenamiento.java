@@ -3,14 +3,14 @@ package mundo;
 import java.util.ArrayList;
 
 public class AreaAlmacenamiento {
-	private Integer id;
+	private int id;
 	private String tipo;
-	private Boolean lleno;
+	private boolean lleno;
 	private ArrayList<Mercancia> mercancias;
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getTipo() {
@@ -19,10 +19,10 @@ public class AreaAlmacenamiento {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public Boolean getLleno() {
+	public boolean getLleno() {
 		return lleno;
 	}
-	public void setLleno(Boolean lleno) {
+	public void setLleno(boolean lleno) {
 		this.lleno = lleno;
 	}
 	public ArrayList<Mercancia> getMercancias() {

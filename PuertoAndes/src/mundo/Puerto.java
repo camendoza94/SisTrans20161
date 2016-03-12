@@ -3,7 +3,7 @@ package mundo;
 import java.util.ArrayList;
 
 public class Puerto {
-	private Integer id;
+	private int id;
 	private String nombre;
 	private String pais;
 	private String ciudad;
@@ -14,10 +14,10 @@ public class Puerto {
 	private ArrayList<Buque> buques;
 	private ArrayList<AreaAlmacenamiento> areasAlmacenamiento;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer idPuerto) {
+	public void setId(int idPuerto) {
 		this.id = idPuerto;
 	}
 	public String getNombre() {

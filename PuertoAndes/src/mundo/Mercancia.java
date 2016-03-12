@@ -7,10 +7,10 @@ public class Mercancia {
 		IMPORTACION, EXPORTACION;
 	}
 	private String id;
-	private Float precio;
+	private float precio;
 	private Date fecha;
 	private claseMercancia proposito;
-	private Integer cantidad;
+	private float cantidad;
 	private String propietario;
 	
 	public String getId() {
@@ -19,10 +19,10 @@ public class Mercancia {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public Float getPrecio() {
+	public float getPrecio() {
 		return precio;
 	}
-	public void setPrecio(Float precio) {
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 	public Date getFecha() {
@@ -37,10 +37,10 @@ public class Mercancia {
 	public void setProposito(claseMercancia proposito) {
 		this.proposito = proposito;
 	}
-	public Integer getCantidad() {
+	public float getCantidad() {
 		return cantidad;
 	}
-	public void setCantidad(Integer cantidad) {
+	public void setCantidad(float cantidad) {
 		this.cantidad = cantidad;
 	}
 	public String getPropietario() {
