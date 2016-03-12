@@ -1,4 +1,4 @@
-package mundo;
+package vos;
 
 public class Equipo {
 	private int id;

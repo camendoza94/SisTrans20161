@@ -1,4 +1,4 @@
-package mundo;
+package vos;
 
 public class Patio extends AreaAlmacenamiento{
 	private float dimension;

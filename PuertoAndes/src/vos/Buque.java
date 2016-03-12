@@ -1,4 +1,4 @@
-package mundo;
+package vos;
 
 import java.sql.Date;
 import java.util.ArrayList;
