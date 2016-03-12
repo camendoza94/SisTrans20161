@@ -2,22 +2,28 @@ package mundo;
 
 import java.util.ArrayList;
 
-public class Camion {
+public class AreaAlmacenamiento {
 	private Integer id;
-	private String nombre;
+	private String tipo;
+	private Boolean lleno;
 	private ArrayList<Mercancia> mercancias;
-	
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getTipo() {
+		return tipo;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public Boolean getLleno() {
+		return lleno;
+	}
+	public void setLleno(Boolean lleno) {
+		this.lleno = lleno;
 	}
 	public ArrayList<Mercancia> getMercancias() {
 		return mercancias;

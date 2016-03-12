@@ -36,6 +36,5 @@ public class Equipo {
 	}
 	public void setDisponible(Boolean disponible) {
 		this.disponible = disponible;
-	}
-	
+	}	
 }

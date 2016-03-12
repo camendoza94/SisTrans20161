@@ -1,19 +1,25 @@
 package mundo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Buque {
+	public enum tipoBuque{
+		RORO, PORTACONTENEDORES, MULTIPROPOSITO;
+	}
 	private Integer id;
 	private String nombre;
 	private String nombreAgente;
 	private Integer capacidad;
 	private Boolean lleno;
-	private Mercancia tipoCarga;
+	private Mercancia tipoCarga; //Revisar
 	private Date fechaIngreso;
 	private Date fechaSalida;
 	private String registroCapitania;
 	private String destino;
 	private String origen;
+	private tipoBuque tipo;
+	private ArrayList<Mercancia> mercancias;
 	
 	public Integer getId() {
 		return id;
@@ -45,12 +51,6 @@ public class Buque {
 	public void setLleno(Boolean lleno) {
 		this.lleno = lleno;
 	}
-	public Mercancia getCarga() {
-		return tipoCarga;
-	}
-	public void setCarga(Mercancia carga) {
-		this.tipoCarga = carga;
-	}
 	public Date getFechaIngreso() {
 		return fechaIngreso;
 	}
@@ -80,5 +80,23 @@ public class Buque {
 	}
 	public void setOrigen(String origen) {
 		this.origen = origen;
+	}
+	public Mercancia getTipoCarga() {
+		return tipoCarga;
+	}
+	public void setTipoCarga(Mercancia tipoCarga) {
+		this.tipoCarga = tipoCarga;
+	}
+	public tipoBuque getTipo() {
+		return tipo;
+	}
+	public void setTipo(tipoBuque tipo) {
+		this.tipo = tipo;
+	}
+	public ArrayList<Mercancia> getMercancias() {
+		return mercancias;
+	}
+	public void setMercancias(ArrayList<Mercancia> mercancias) {
+		this.mercancias = mercancias;
 	}
 }
