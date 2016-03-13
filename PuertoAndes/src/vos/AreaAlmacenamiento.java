@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class AreaAlmacenamiento {
 	private int id;
-	private String tipo;
 	private boolean lleno;
 	private ArrayList<Mercancia> mercancias;
 	public int getId() {
@@ -12,12 +11,6 @@ public class AreaAlmacenamiento {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
 	}
 	public boolean getLleno() {
 		return lleno;
