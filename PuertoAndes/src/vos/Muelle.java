@@ -10,6 +10,9 @@ public class Muelle {
 		this.nombre = nombre;
 		this.buqueAtracado = buqueAtracado;
 	}
+	public Muelle(){
+		
+	}
 	public int getId() {
 		return id;
 	}

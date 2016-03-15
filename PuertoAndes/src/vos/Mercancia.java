@@ -23,6 +23,9 @@ public class Mercancia {
 		this.cantidad = cantidad;
 		this.propietario = propietario;
 	}
+	public Mercancia(){
+		
+	}
 	public String getId() {
 		return id;
 	}

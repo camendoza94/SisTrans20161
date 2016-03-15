@@ -15,6 +15,9 @@ public class Equipo {
 		this.capacidad = capacidad;
 		this.disponible = disponible;
 	}
+	public Equipo(){
+		
+	}
 	public int getId() {
 		return id;
 	}

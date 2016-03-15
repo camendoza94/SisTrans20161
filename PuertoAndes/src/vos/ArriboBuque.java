@@ -14,6 +14,9 @@ public class ArriboBuque {
 		this.puertoSiguiente = puertoSiguiente;
 		this.buque = buque;
 	}
+	public ArriboBuque(){
+		
+	}
 	public Date getFecha() {
 		return fecha;
 	}

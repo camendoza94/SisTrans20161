@@ -35,6 +35,9 @@ public class Puerto {
 		this.salidas = salidas;
 		this.arribos = arribos;
 	}
+	public Puerto(){
+		
+	}
 	public int getId() {
 		return id;
 	}

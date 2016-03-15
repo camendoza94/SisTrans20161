@@ -11,6 +11,9 @@ public class CuartoFrio {
 		this.largo = largo;
 		this.altura = altura;
 		this.porcentajeBodega = porcentajeBodega;
+	}	
+	public CuartoFrio(){
+		
 	}
 	public float getAncho() {
 		return ancho;

@@ -11,6 +11,9 @@ public class Patio extends AreaAlmacenamiento{
 		this.dimension = dimension;
 		this.tipoCarga = tipoCarga;
 	}
+	public Patio(){
+		
+	}
 	public float getDimension() {
 		return dimension;
 	}

@@ -11,6 +11,9 @@ public class Cobertizo extends AreaAlmacenamiento{
 		this.dimension = dimension;
 		this.tipoCarga = tipoCarga;
 	}
+	public Cobertizo(){
+		
+	}
 	public float getDimension() {
 		return dimension;
 	}

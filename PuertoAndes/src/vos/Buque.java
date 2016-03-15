@@ -42,6 +42,9 @@ public class Buque {
 		this.tipo = tipo;
 		this.mercancias = mercancias;
 	}
+	public Buque(){
+		
+	}
 	public int getId() {
 		return id;
 	}

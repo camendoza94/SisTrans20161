@@ -5,6 +5,15 @@ import java.sql.Date;
 public class SalidaBuque {
 	private Date fecha;
 	private Buque buque;
+	
+	public SalidaBuque(Date fecha, Buque buque) {
+		super();
+		this.fecha = fecha;
+		this.buque = buque;
+	}
+	public SalidaBuque(){
+		
+	}
 	public Buque getBuque() {
 		return buque;
 	}

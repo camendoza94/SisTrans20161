@@ -18,6 +18,9 @@ public class Bodega extends AreaAlmacenamiento {
 		this.separacionColumna = separacionColumna;
 		this.cuartosFrios = cuartosFrios;
 	}
+	public Bodega(){
+		
+	}
 	public float getAncho() {
 		return ancho;
 	}

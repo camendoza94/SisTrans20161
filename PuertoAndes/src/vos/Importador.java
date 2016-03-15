@@ -13,6 +13,9 @@ public class Importador extends Usuario{
 		this.registroAduana = registroAduana;
 		this.tipo = tipo;
 	}
+	public Importador(){
+		
+	}
 	public String getRegistroAduana() {
 		return registroAduana;
 	}

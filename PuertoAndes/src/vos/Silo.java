@@ -11,6 +11,9 @@ public class Silo extends AreaAlmacenamiento{
 		this.nombre = nombre;
 		this.capacidad = capacidad;
 	}
+	public Silo(){
+		
+	}
 	public String getNombre() {
 		return nombre;
 	}

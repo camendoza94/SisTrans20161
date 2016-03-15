@@ -21,6 +21,9 @@ public class Usuario {
 		this.tipoPersona = tipoPersona;
 		this.tipoUsuario = tipoUsuario;
 	}
+	public Usuario(){
+		
+	}
 	public int getId() {
 		return id;
 	}

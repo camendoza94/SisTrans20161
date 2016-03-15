@@ -9,6 +9,9 @@ public class Exportador extends Usuario {
 		super(id, nombre, tipoPersona, tipoUsuario);
 		RUT = rUT;
 	}
+	public Exportador(){
+		
+	}
 
 	public String getRUT() {
 		return RUT;

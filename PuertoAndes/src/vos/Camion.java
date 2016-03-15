@@ -13,6 +13,9 @@ public class Camion {
 		this.nombre = nombre;
 		this.mercancias = mercancias;
 	}
+	public Camion(){
+		
+	}
 	public int getId() {
 		return id;
 	}

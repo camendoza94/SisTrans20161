@@ -14,6 +14,9 @@ public class Factura {
 		this.buque = buque;
 		this.exportador = exportador;
 	}
+	public Factura(){
+		
+	}
 	public int getId() {
 		return id;
 	}
