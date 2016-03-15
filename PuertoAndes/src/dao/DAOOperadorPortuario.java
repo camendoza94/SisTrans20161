@@ -66,6 +66,18 @@ public class DAOOperadorPortuario {
 		this.conn = con;
 	}
 	
+	//RF6
+	/**
+	 * 
+	 * @param buque
+	 * @param idPuerto
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	public void addTipoCarga(Buque buque, Integer idPuerto) throws SQLException, Exception{
+		
+	}
+	
 	//RF9
 	/**
 	 * 
@@ -118,6 +130,51 @@ public class DAOOperadorPortuario {
 			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
 			recursos.add(prepStmt2);
 			prepStmt2.executeQuery();	
+		}
+	}
+	//RF8
+	//Se asume que quien pide la carga es el propietario de esta
+	/**
+	 * 
+	 * @param entregaMercancia
+	 * @param idPuerto
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	public boolean addEntregaMercancia(EntregaMercancia mercancia, Integer idAA, Integer idPuerto)throws SQLException, Exception {
+		if(buscarMercanciaAA(mercancia, idAA)){
+			String sql = "INSERT INTO ENTREGA_MERCANCIAS VALUES (";
+			sql += mercancia.getMercancia().getId() + ",";
+			sql += mercancia.getFecha() + ",";
+			sql += idPuerto + ")";
+	
+			System.out.println("SQL stmt:" + sql);
+	
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			recursos.add(prepStmt);
+			prepStmt.executeQuery();
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean buscarMercanciaAA(EntregaMercancia mercancia, Integer idAA) throws SQLException, Exception{
+		String sql = "SELECT * FROM MERCANCIAS WHERE ID_AREA_ALMACENAMIENTO=";
+		sql += idAA + "),";
+		sql += " AND ID_MERCANCIA=" + mercancia.getMercancia().getId();
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		if(rs.next()){
+			System.out.println("Esta mercancia sí está en el área de almacenamiento dada");
+			return true;
+		}
+		else{
+			System.out.println("Esta mercancia no está en el área de almacenamiento dada");
+			return false;
 		}
 	}
 }

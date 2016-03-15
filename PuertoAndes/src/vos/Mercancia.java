@@ -6,15 +6,17 @@ public class Mercancia {
 	private enum claseMercancia{
 		IMPORTACION, EXPORTACION;
 	}
-	private String id;
+	private Integer id;
 	private float precio;
 	private Date fecha;
 	private claseMercancia proposito;
 	private float cantidad;
-	private String propietario;
-	
-	public Mercancia(String id, float precio, Date fecha, claseMercancia proposito, float cantidad,
-			String propietario) {
+	private Usuario propietario;
+	public Mercancia(){
+		
+	}
+	public Mercancia(Integer id, float precio, Date fecha, claseMercancia proposito, float cantidad,
+			Usuario propietario) {
 		super();
 		this.id = id;
 		this.precio = precio;
@@ -23,13 +25,10 @@ public class Mercancia {
 		this.cantidad = cantidad;
 		this.propietario = propietario;
 	}
-	public Mercancia(){
-		
-	}
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public float getPrecio() {
@@ -56,10 +55,10 @@ public class Mercancia {
 	public void setCantidad(float cantidad) {
 		this.cantidad = cantidad;
 	}
-	public String getPropietario() {
+	public Usuario getPropietario() {
 		return propietario;
 	}
-	public void setPropietario(String propietario) {
+	public void setPropietario(Usuario propietario) {
 		this.propietario = propietario;
 	}	
 }

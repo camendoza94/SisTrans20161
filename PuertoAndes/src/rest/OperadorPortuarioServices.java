@@ -13,7 +13,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.PuertoAndesMaster;
+import vos.EntregaMercancia;
 import vos.Factura;
+import vos.Mercancia;
 import vos.SalidaBuque;
 
 /**
@@ -42,8 +44,23 @@ public class OperadorPortuarioServices {
 		return "{ \"ERROR\": \""+ e.getMessage() + "\"}" ;
 	}
 	
+	//RF8
+	@POST
+	@Path("/entregaMercancia")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addEntregaMercancia(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA, @QueryParam("idPuerto")Integer idPuerto){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		try {
+			tm.addEntregaMercancia(mercancia, idAA, idPuerto);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(mercancia).build();
+	}
 
 	// TODO Cambiar documentación
+	//RF9
     /**
      * Método que expone servicio REST usando PUT que agrega el video que recibe en Json
      * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/agentePortuario/salidaBuque

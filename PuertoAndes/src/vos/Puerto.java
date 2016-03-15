@@ -15,12 +15,15 @@ public class Puerto {
 	private ArrayList<AreaAlmacenamiento> areasAlmacenamiento;
 	private ArrayList<SalidaBuque> salidas;
 	private ArrayList<ArriboBuque> arribos;
-	//Facturas?
+	private ArrayList<EntregaMercancia> entregas;
+	private ArrayList<LlegadaMercancia> llegadas;
+	private ArrayList<Factura> facturas;
 	
 	public Puerto(int id, String nombre, String pais, String ciudad, ArrayList<Usuario> usuarios,
 			ArrayList<Equipo> equipos, ArrayList<Camion> camiones, ArrayList<Muelle> muelles, ArrayList<Buque> buques,
 			ArrayList<AreaAlmacenamiento> areasAlmacenamiento, ArrayList<SalidaBuque> salidas,
-			ArrayList<ArriboBuque> arribos) {
+			ArrayList<ArriboBuque> arribos, ArrayList<EntregaMercancia> entregas, ArrayList<LlegadaMercancia> llegadas,
+			ArrayList<Factura> facturas) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -34,6 +37,9 @@ public class Puerto {
 		this.areasAlmacenamiento = areasAlmacenamiento;
 		this.salidas = salidas;
 		this.arribos = arribos;
+		this.entregas = entregas;
+		this.llegadas = llegadas;
+		this.setFacturas(facturas);
 	}
 	public Puerto(){
 		
@@ -109,5 +115,23 @@ public class Puerto {
 	}
 	public void setArribos(ArrayList<ArriboBuque> arribos) {
 		this.arribos = arribos;
+	}
+	public ArrayList<EntregaMercancia> getEntregas() {
+		return entregas;
+	}
+	public void setEntregas(ArrayList<EntregaMercancia> entregas) {
+		this.entregas = entregas;
+	}
+	public ArrayList<LlegadaMercancia> getLlegadas() {
+		return llegadas;
+	}
+	public void setLlegadas(ArrayList<LlegadaMercancia> llegadas) {
+		this.llegadas = llegadas;
+	}
+	public ArrayList<Factura> getFacturas() {
+		return facturas;
+	}
+	public void setFacturas(ArrayList<Factura> facturas) {
+		this.facturas = facturas;
 	}
 }

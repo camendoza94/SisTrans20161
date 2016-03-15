@@ -1,13 +1,13 @@
 package vos;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class AreaAlmacenamiento {
 	private int id;
 	private boolean lleno;
-	private List<Mercancia> mercancias;
+	private ArrayList<Mercancia> mercancias;
 	
-	public AreaAlmacenamiento(int id, boolean lleno, List<Mercancia> mercancias) {
+	public AreaAlmacenamiento(int id, boolean lleno, ArrayList<Mercancia> mercancias) {
 		super();
 		this.id = id;
 		this.lleno = lleno;
@@ -28,10 +28,10 @@ public class AreaAlmacenamiento {
 	public void setLleno(boolean lleno) {
 		this.lleno = lleno;
 	}
-	public List<Mercancia> getMercancias() {
+	public ArrayList<Mercancia> getMercancias() {
 		return mercancias;
 	}
-	public void setMercancias(List<Mercancia> mercancias) {
+	public void setMercancias(ArrayList<Mercancia> mercancias) {
 		this.mercancias = mercancias;
 	}
 }

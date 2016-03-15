@@ -102,7 +102,7 @@ public class DAOAgentePortuario {
 			encontrado = true;
 		}
 		else{
-			System.out.println("Este buque no está atracado");
+			System.out.println("Este buque no está atracado a ningun muelle del puerto");
 		}
 		return encontrado;
 	}
@@ -129,9 +129,7 @@ public class DAOAgentePortuario {
 			prepStmt.executeQuery();
 			return true;
 		}
-		else{//Throw exception?
-			System.out.println("El buque no está atracado a ningun muelle del puerto");
-			return false;
-		}
+		//Throw exception?
+		return false;
 	}
 }
