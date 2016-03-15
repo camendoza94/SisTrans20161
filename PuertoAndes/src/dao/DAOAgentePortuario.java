@@ -65,28 +65,7 @@ public class DAOAgentePortuario {
 	public void  setConn(Connection con){
 		this.conn = con;
 	}
-	
-	//RF4
-	/**
-	 * 
-	 * @param arriboBuque
-	 * @throws SQLException
-	 * @throws Exception
-	 */
-	public void addArriboBuque(MovimientoBuque arriboBuque) throws SQLException, Exception{
-		String sql = "INSERT INTO ARRIBO_BUQUES VALUES (";
-		sql += arriboBuque.getFecha() + ",";
-		sql += arriboBuque.getPuertoAnterior() + ",";
-		sql += arriboBuque.getPuertoSiguiente() + ",";
-		sql += arriboBuque.getBuque() + ")";
-
-		System.out.println("SQL stmt:" + sql);
-
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-		recursos.add(prepStmt);
-		prepStmt.executeQuery();
-	}
-	
+		
 	//RF5-1
 	private boolean buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
 		boolean encontrado = false;
@@ -117,10 +96,9 @@ public class DAOAgentePortuario {
 	 */
 	public boolean addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
 		if(buscarBuquePuerto(salidaBuque.getBuque(), idPuerto)){
-			String sql = "INSERT INTO SALIDA_BUQUES VALUES (";
+			String sql = "INSERT INTO MOVIMIENTO_BUQUES VALUES (";
 			sql += salidaBuque.getBuque() + ",";
 			sql += salidaBuque.getFecha() + ",";
-			sql += salidaBuque.getHora() + ",";
 			sql += idPuerto + ",";
 			sql += salidaBuque.getPuertoAnterior() + ",";
 			sql += salidaBuque.getPuertoSiguiente() + ",";

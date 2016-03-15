@@ -8,16 +8,14 @@ public class MovimientoBuque {
 		SALIDA, ARRIBO
 	}
 	private Date fecha;
-	private Time hora;
 	private Puerto puertoAnterior;
 	private Puerto puertoSiguiente;	
 	private Buque buque;
 	private tipoMovimiento tipo;
-	public MovimientoBuque(Date fecha, Time hora, Puerto puertoAnterior, Puerto puertoSiguiente, Buque buque,
+	public MovimientoBuque(Date fecha, Puerto puertoAnterior, Puerto puertoSiguiente, Buque buque,
 			tipoMovimiento tipo) {
 		super();
 		this.fecha = fecha;
-		this.hora = hora;
 		this.puertoAnterior = puertoAnterior;
 		this.puertoSiguiente = puertoSiguiente;
 		this.buque = buque;
@@ -56,10 +54,4 @@ public class MovimientoBuque {
 	public void setBuque(Buque buque) {
 		this.buque = buque;
 	}
-	public Time getHora() {
-		return hora;
-	}
-	public void setHora(Time hora) {
-		this.hora = hora;
-	}	
 }

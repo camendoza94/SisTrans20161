@@ -97,7 +97,7 @@ public class DAOConsultas {
 			sql += " AND ID_BUQUE IN (SELECT ID FROM BUQUES WHERE TIPO_MERCANCIA ='" + tipoMercancia + "'";
 		}
 		if(hora != null){
-			sql += " AND HORA =" + hora;
+			sql += " AND TO_CHAR(FECHA, HH:MM) = " + hora;
 		}
 		if(groupBy != null){
 			sql2 = "SELECT " + groupBy + ", COUNT(*) FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO=" + idPuerto + " GROUP BY " + groupBy;
@@ -120,7 +120,7 @@ public class DAOConsultas {
 			rs = prepStmt.executeQuery();
 		}
 		while(rs.next()){
-			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getTime("HORA"), new Puerto(rs.getInt("ID_PUERTO_ANTERIOR")), new Puerto (rs.getInt("ID_PUERTO_SIGUIENTE")), new Buque(rs.getInt("ID_BUQUE")), (tipoMovimiento)rs.getObject("TIPO"));
+			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), new Puerto(rs.getInt("ID_PUERTO_ANTERIOR")), new Puerto (rs.getInt("ID_PUERTO_SIGUIENTE")), new Buque(rs.getInt("ID_BUQUE")), (tipoMovimiento)rs.getObject("TIPO"));
 			movimientos.add(movimiento);
 		}
 		return movimientos;
