@@ -1,15 +1,14 @@
 /**-------------------------------------------------------------------
  * $Id$
  * 
- * Universidad de los Andes (Bogot� - Colombia)
- * Departamento de Ingenier�a de Sistemas y Computaci�n
+ * Universidad de los Andes (Bogotá- Colombia)
+ * Departamento de Ingeniería de Sistemas y Computación
  *
  * Materia: Sistemas Transaccionales
- * Extractos tomados de VideoAndes por Juan Felipe Garc�a - jf.garcia268@uniandes.edu.co
+ * Extractos tomados de VideoAndes por Juan Felipe García - jf.garcia268@uniandes.edu.co
  * -------------------------------------------------------------------
  */
 package dao;
-
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +22,7 @@ import vos.*;
  * Clase DAO que se conecta la base de datos usando JDBC para resolver los requerimientos de la aplicación
  * @author Juan
  */
-public class DAOPuertoAndes {
+public class DAOAgentePortuario {
 
 
 	/**
@@ -40,7 +39,7 @@ public class DAOPuertoAndes {
 	 * Método constructor que crea DAOVideo
 	 * <b>post: </b> Crea la instancia del DAO e inicializa el Arraylist de recursos
 	 */
-	public DAOPuertoAndes() {
+	public DAOAgentePortuario() {
 		recursos = new ArrayList<Object>();
 	}
 
@@ -63,9 +62,78 @@ public class DAOPuertoAndes {
 	 * Método que inicializa la connection del DAO a la base de datos con la conexión que entra como parámetro.
 	 * @param con  - connection a la base de datos
 	 */
-	public void setConn(Connection con){
+	public void  (Connection con){
 		this.conn = con;
 	}
+	
+	//RF4
+	/**
+	 * 
+	 * @param arriboBuque
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	public void addArriboBuque(ArriboBuque arriboBuque) throws SQLException, Exception{
+		String sql = "INSERT INTO ARRIBO_BUQUES VALUES (";
+		sql += arriboBuque.getFecha() + ",";
+		sql += arriboBuque.getPuertoAnterior() + ",";
+		sql += arriboBuque.getPuertoSiguiente() + ",";
+		sql += arriboBuque.getBuque() + ")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
+	
+	//RF5-1
+	public boolean buscarBuquePuerto(Buque buque, Puerto puerto){
+		boolean encontrado = false;
+
+		String sql = "SELECT * FROM MUELLES WHERE ID_PUERTO =" + puerto.getId();
+		sql += " AND ID_BUQUE =" + buque.getId();
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		if(rs.next()){         
+			System.out.println("Este muelle sí está atracado");
+			encontrado = true;
+		}
+		else{
+			System.out.println("Este muelle no está atracado");
+		}
+		return encontrado;
+	}
+	
+	//RF5
+	/**
+	 * 
+	 * @param salidaBuque
+	 * @return
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	public boolean addSalidaBuque(SalidaBuque salidaBuque, Puerto puerto) throws SQLException, Exception{
+		if(buscarBuquePuerto(salidaBuque.getBuque(), puerto)){
+			String sql = "INSERT INTO SALIDA_BUQUES VALUES (";
+			sql += salidaBuque.getFecha() + ",";
+			sql += salidaBuque.getBuque() + ",";
+			sql += puerto.getId() + ")";
+	
+			System.out.println("SQL stmt:" + sql);
+	
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			recursos.add(prepStmt);
+			prepStmt.executeQuery();
+		}
+		else{//Throw exception?
+			System.out.println("El buque no está atracado a ningun muelle del puerto");
+		}
+	}
+	
+	
 
 
 	/**

@@ -12,7 +12,7 @@ public class Buque {
 	private String nombreAgente;
 	private float capacidad;
 	private boolean lleno;
-	private Mercancia tipoCarga; //Revisar
+	private Mercancia tipoCarga; //Revisar TODO cambiar por enumeración
 	private Date fechaIngreso;
 	private Date fechaSalida;
 	private String registroCapitania;

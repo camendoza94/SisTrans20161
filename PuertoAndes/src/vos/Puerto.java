@@ -13,6 +13,9 @@ public class Puerto {
 	private ArrayList<Muelle> muelles;
 	private ArrayList<Buque> buques;
 	private ArrayList<AreaAlmacenamiento> areasAlmacenamiento;
+	private ArrayList<SalidaBuque> salidas;
+	private ArrayList<ArriboBuque> arribos;
+	//Facturas?
 	
 	public int getId() {
 		return id;
@@ -73,5 +76,17 @@ public class Puerto {
 	}
 	public void setAreasAlmacenamiento(ArrayList<AreaAlmacenamiento> areasAlmacenamiento) {
 		this.areasAlmacenamiento = areasAlmacenamiento;
+	}
+	public ArrayList<SalidaBuque> getSalidas() {
+		return salidas;
+	}
+	public void setSalidas(ArrayList<SalidaBuque> salidas) {
+		this.salidas = salidas;
+	}
+	public ArrayList<ArriboBuque> getArribos() {
+		return arribos;
+	}
+	public void setArribos(ArrayList<ArriboBuque> arribos) {
+		this.arribos = arribos;
 	}
 }
