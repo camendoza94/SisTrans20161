@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.Connection;
+
 public class DAOAdmin {
 
 	//----------------------------------------------------------
@@ -47,10 +49,47 @@ public class DAOAdmin {
 	private final static String REGISTRAR_BUQUE= "INSERT INTO BUQUES"+
 												"(ID_BUQUE,NOMBRE,NOMBRE_AGENTE,CAPACIDAD,LLENO,FECHA_INGRESO,FECHA_SALIDA,REGISTRO_CAPITANIA,DESTINO,ORIGEN,TIPOBUQUE)VALUES";
 	
+	//--------------------------
+	//ATRIBUTOS
+	//--------------------------------
 	
 	/**
-	 * TODO
+	 * Conexion con la base de datos
 	 */
-	private final static String REGISTRAR_ARRIBO_BUQUE="";
+	private Connection conexion;
+	
+	/**
+	 * URL para conexion con la base de datos
+	 */
+	private String cadenaConexion;
+	
+	private int id_Usuario;
+	
+	private int id_Buque;
+	 
+	private int id_Bodega;
+	
+	private int id_Patio;
+	
+	private int id_Silo;
+	
+	private int id_Cobertizo;
+	
+	private int id_Cuarto;
+	
+	private int id_Area;
+	
+	
+	//---------------------------------
+	//Métodos
+	//---------------------------------
+	
+	
+	
+	
+	
+	
+	
+	
 	 
 }
