@@ -88,8 +88,8 @@ public class DAOOperadorPortuario {
 	 */
 	public void addFactura(Factura factura, Integer idPuerto) throws SQLException, Exception {
 		String sql = "INSERT INTO FACTURAS VALUES (";
-		sql += factura.getId() + ",";
-		sql += factura.getFecha() + ",";
+		sql += factura.getId() + ",#";
+		sql += factura.getFecha() + ",#";
 		sql += factura.getExportador().getId() + ",";
 		sql += factura.getBuque().getId() + ",";
 		sql += idPuerto + ")";
@@ -141,13 +141,14 @@ public class DAOOperadorPortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public boolean addEntregaMercancia(EntregaMercancia mercancia, Integer idAA, Integer idPuerto)throws SQLException, Exception {
+	public boolean addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA, Integer idPuerto)throws SQLException, Exception {
 		if(buscarMercanciaAA(mercancia, idAA)){
 			String sql = "INSERT INTO ENTREGA_MERCANCIAS VALUES (";
-			sql += mercancia.getMercancia().getId() + ",";
-			sql += mercancia.getFecha() + ",";
-			sql += idPuerto + ")";
-	
+			sql += mercancia.getMercancia().getId() + ",#";
+			sql += mercancia.getFecha() + ",#";
+			sql += idPuerto + ",'";
+			sql += "A_IMPORTADOR" + "')";
+			
 			System.out.println("SQL stmt:" + sql);
 	
 			PreparedStatement prepStmt = conn.prepareStatement(sql);

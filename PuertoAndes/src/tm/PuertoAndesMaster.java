@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import dao.*;
@@ -111,7 +112,7 @@ public class PuertoAndesMaster {
 	////////////////////////////////////////
 	
 	//RF5
-	public boolean addSalidaBuque(SalidaBuque salidaBuque, Integer idPuerto) throws Exception{
+	public boolean addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws Exception{
 		boolean ok = false;
 		DAOAgentePortuario daoAgentePortuario = new DAOAgentePortuario();
 		try 
@@ -175,14 +176,14 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF8
-	public void addEntregaMercancia(EntregaMercancia mercancia, Integer idAA, Integer idPuerto) throws Exception {
+	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA, Integer idPuerto) throws Exception {
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();	
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoOperadorPortuario.setConn(conn);
-			daoOperadorPortuario.addEntregaMercancia(mercancia, idAA, idPuerto);
+			daoOperadorPortuario.addEntregaMercanciaImportador(mercancia, idAA, idPuerto);
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -203,6 +204,10 @@ public class PuertoAndesMaster {
 				throw exception;
 			}
 		}
+	}
+	//RFC1
+	public ArrayList<MovimientoBuque> consultarArribosSalidas(){
+		return null;
 	}
 }
 

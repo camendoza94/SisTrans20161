@@ -73,7 +73,7 @@ public class DAOAgentePortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public void addArriboBuque(ArriboBuque arriboBuque) throws SQLException, Exception{
+	public void addArriboBuque(MovimientoBuque arriboBuque) throws SQLException, Exception{
 		String sql = "INSERT INTO ARRIBO_BUQUES VALUES (";
 		sql += arriboBuque.getFecha() + ",";
 		sql += arriboBuque.getPuertoAnterior() + ",";
@@ -115,12 +115,16 @@ public class DAOAgentePortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public boolean addSalidaBuque(SalidaBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
+	public boolean addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
 		if(buscarBuquePuerto(salidaBuque.getBuque(), idPuerto)){
 			String sql = "INSERT INTO SALIDA_BUQUES VALUES (";
-			sql += salidaBuque.getFecha() + ",";
 			sql += salidaBuque.getBuque() + ",";
-			sql += idPuerto + ")";
+			sql += salidaBuque.getFecha() + ",";
+			sql += salidaBuque.getHora() + ",";
+			sql += idPuerto + ",";
+			sql += salidaBuque.getPuertoAnterior() + ",";
+			sql += salidaBuque.getPuertoSiguiente() + ",";
+			sql += "SALIDA" + ")";
 	
 			System.out.println("SQL stmt:" + sql);
 	

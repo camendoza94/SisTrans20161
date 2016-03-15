@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.PuertoAndesMaster;
-import vos.SalidaBuque;
+import vos.MovimientoBuque;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/PuertoAndes/rest/agentePortuario/...
@@ -53,7 +53,7 @@ public class AgentePortuarioServices {
 	@Path("/salidaBuque")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addSalidaBuque(SalidaBuque salidaBuque,@QueryParam("idPuerto") Integer idPuerto) {
+	public Response addSalidaBuque(MovimientoBuque salidaBuque,@QueryParam("idPuerto") Integer idPuerto) {
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		try {
 			tm.addSalidaBuque(salidaBuque, idPuerto);

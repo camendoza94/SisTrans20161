@@ -16,7 +16,6 @@ import tm.PuertoAndesMaster;
 import vos.EntregaMercancia;
 import vos.Factura;
 import vos.Mercancia;
-import vos.SalidaBuque;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/PuertoAndes/rest/agentePortuario/...
@@ -49,10 +48,10 @@ public class OperadorPortuarioServices {
 	@Path("/entregaMercancia")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addEntregaMercancia(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA, @QueryParam("idPuerto")Integer idPuerto){
+	public Response addEntregaMercanciaImportador(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA, @QueryParam("idPuerto")Integer idPuerto){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		try {
-			tm.addEntregaMercancia(mercancia, idAA, idPuerto);
+			tm.addEntregaMercanciaImportador(mercancia, idAA, idPuerto);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
