@@ -88,10 +88,10 @@ public class DAOAgentePortuario {
 	}
 	
 	//RF5-1
-	public boolean buscarBuquePuerto(Buque buque, Puerto puerto) throws SQLException, Exception{
+	public boolean buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
 		boolean encontrado = false;
 
-		String sql = "SELECT * FROM MUELLES WHERE ID_PUERTO =" + puerto.getId();
+		String sql = "SELECT * FROM MUELLES WHERE ID_PUERTO =" + idPuerto;
 		sql += " AND ID_BUQUE =" + buque.getId();
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
@@ -115,12 +115,12 @@ public class DAOAgentePortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public boolean addSalidaBuque(SalidaBuque salidaBuque, Puerto puerto) throws SQLException, Exception{
-		if(buscarBuquePuerto(salidaBuque.getBuque(), puerto)){
+	public boolean addSalidaBuque(SalidaBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
+		if(buscarBuquePuerto(salidaBuque.getBuque(), idPuerto)){
 			String sql = "INSERT INTO SALIDA_BUQUES VALUES (";
 			sql += salidaBuque.getFecha() + ",";
 			sql += salidaBuque.getBuque() + ",";
-			sql += puerto.getId() + ")";
+			sql += idPuerto + ")";
 	
 			System.out.println("SQL stmt:" + sql);
 	

@@ -1,9 +1,16 @@
 package vos;
 
+import java.util.ArrayList;
+
 public class Patio extends AreaAlmacenamiento{
 	private float dimension;
 	private String tipoCarga;
 	
+	public Patio(int id, boolean lleno, ArrayList<Mercancia> mercancias, float dimension, String tipoCarga) {
+		super(id, lleno, mercancias);
+		this.dimension = dimension;
+		this.tipoCarga = tipoCarga;
+	}
 	public float getDimension() {
 		return dimension;
 	}

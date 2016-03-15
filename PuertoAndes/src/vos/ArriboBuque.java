@@ -7,6 +7,13 @@ public class ArriboBuque {
 	private Puerto puertoAnterior;
 	private Puerto puertoSiguiente;	
 	private Buque buque;
+	public ArriboBuque(Date fecha, Puerto puertoAnterior, Puerto puertoSiguiente, Buque buque) {
+		super();
+		this.fecha = fecha;
+		this.puertoAnterior = puertoAnterior;
+		this.puertoSiguiente = puertoSiguiente;
+		this.buque = buque;
+	}
 	public Date getFecha() {
 		return fecha;
 	}

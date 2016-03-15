@@ -7,6 +7,12 @@ public class Importador extends Usuario{
 	private String registroAduana;
 	private tipoImportador tipo;
 	
+	public Importador(int id, String nombre, vos.Usuario.tipoPersona tipoPersona, vos.Usuario.tipoUsuario tipoUsuario,
+			String registroAduana, tipoImportador tipo) {
+		super(id, nombre, tipoPersona, tipoUsuario);
+		this.registroAduana = registroAduana;
+		this.tipo = tipo;
+	}
 	public String getRegistroAduana() {
 		return registroAduana;
 	}

@@ -9,6 +9,15 @@ public class Bodega extends AreaAlmacenamiento {
 	private boolean plataformaExt;
 	private float separacionColumna;
 	private ArrayList<CuartoFrio> cuartosFrios;
+	public Bodega(int id, boolean lleno, ArrayList<Mercancia> mercancias, float ancho, float largo,
+			boolean plataformaExt, float separacionColumna, ArrayList<CuartoFrio> cuartosFrios) {
+		super(id, lleno, mercancias);
+		this.ancho = ancho;
+		this.largo = largo;
+		this.plataformaExt = plataformaExt;
+		this.separacionColumna = separacionColumna;
+		this.cuartosFrios = cuartosFrios;
+	}
 	public float getAncho() {
 		return ancho;
 	}

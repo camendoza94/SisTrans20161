@@ -3,34 +3,16 @@ package rest;
 import javax.servlet.ServletContext;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.PuertoAndesMaster;
-import vos.AreaAlmacenamiento;
-import vos.Bodega;
-import vos.Buque;
-import vos.Camion;
-import vos.Cobertizo;
-import vos.CuartoFrio;
-import vos.Equipo;
-import vos.Exportador;
-import vos.Factura;
-import vos.Importador;
-import vos.Mercancia;
-import vos.Muelle;
-import vos.Patio;
-import vos.Puerto;
 import vos.SalidaBuque;
-import vos.Silo;
-import vos.Usuario;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/PuertoAndes/rest/agentePortuario/...
@@ -70,10 +52,10 @@ public class AgentePortuarioServices {
 	@Path("/salidaBuque")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addSalidaBuque(SalidaBuque salidaBuque, Puerto puerto) {
+	public Response addSalidaBuque(SalidaBuque salidaBuque,@QueryParam("idPuerto") Integer idPuerto) {
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		try {
-			tm.addSalidaBuque(salidaBuque, puerto);
+			tm.addSalidaBuque(salidaBuque, idPuerto);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

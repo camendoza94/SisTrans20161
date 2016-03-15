@@ -5,6 +5,13 @@ public class CuartoFrio {
 	private float largo;
 	private float altura;
 	private float porcentajeBodega;
+	public CuartoFrio(float ancho, float largo, float altura, float porcentajeBodega) {
+		super();
+		this.ancho = ancho;
+		this.largo = largo;
+		this.altura = altura;
+		this.porcentajeBodega = porcentajeBodega;
+	}
 	public float getAncho() {
 		return ancho;
 	}

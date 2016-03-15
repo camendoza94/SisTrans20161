@@ -1,9 +1,16 @@
 package vos;
 
-public class Silo {
+import java.util.ArrayList;
+
+public class Silo extends AreaAlmacenamiento{
 	private String nombre;
 	private float capacidad;
 	
+	public Silo(int id, boolean lleno, ArrayList<Mercancia> mercancias, String nombre, float capacidad) {
+		super(id, lleno, mercancias);
+		this.nombre = nombre;
+		this.capacidad = capacidad;
+	}
 	public String getNombre() {
 		return nombre;
 	}

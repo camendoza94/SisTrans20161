@@ -6,8 +6,7 @@ public class Usuario {
 	}
 	
 	public enum tipoUsuario{
-		// TODO
-		OPERADOR_PORTUARIO; 
+		OPERADOR_PORTUARIO, AGENTE_PORTUARIO;
 	}
 	
 	private int id; //String?
@@ -15,6 +14,13 @@ public class Usuario {
 	private tipoPersona tipoPersona;
 	private tipoUsuario tipoUsuario;
 	
+	public Usuario(int id, String nombre, vos.Usuario.tipoPersona tipoPersona, vos.Usuario.tipoUsuario tipoUsuario) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.tipoPersona = tipoPersona;
+		this.tipoUsuario = tipoUsuario;
+	}
 	public int getId() {
 		return id;
 	}

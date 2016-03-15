@@ -7,6 +7,14 @@ public class Equipo {
 	private float capacidad;
 	private boolean disponible;
 	
+	public Equipo(int id, String nombre, float precio, float capacidad, boolean disponible) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.precio = precio;
+		this.capacidad = capacidad;
+		this.disponible = disponible;
+	}
 	public int getId() {
 		return id;
 	}

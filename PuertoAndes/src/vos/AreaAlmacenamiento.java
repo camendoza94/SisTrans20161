@@ -6,6 +6,13 @@ public class AreaAlmacenamiento {
 	private int id;
 	private boolean lleno;
 	private ArrayList<Mercancia> mercancias;
+	
+	public AreaAlmacenamiento(int id, boolean lleno, ArrayList<Mercancia> mercancias) {
+		super();
+		this.id = id;
+		this.lleno = lleno;
+		this.mercancias = mercancias;
+	}
 	public int getId() {
 		return id;
 	}

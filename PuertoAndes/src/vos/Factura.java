@@ -7,6 +7,13 @@ public class Factura {
 	private Date fecha;
 	private Buque buque;
 	private Exportador exportador;
+	public Factura(int id, Date fecha, Buque buque, Exportador exportador) {
+		super();
+		this.id = id;
+		this.fecha = fecha;
+		this.buque = buque;
+		this.exportador = exportador;
+	}
 	public int getId() {
 		return id;
 	}

@@ -17,6 +17,24 @@ public class Puerto {
 	private ArrayList<ArriboBuque> arribos;
 	//Facturas?
 	
+	public Puerto(int id, String nombre, String pais, String ciudad, ArrayList<Usuario> usuarios,
+			ArrayList<Equipo> equipos, ArrayList<Camion> camiones, ArrayList<Muelle> muelles, ArrayList<Buque> buques,
+			ArrayList<AreaAlmacenamiento> areasAlmacenamiento, ArrayList<SalidaBuque> salidas,
+			ArrayList<ArriboBuque> arribos) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.pais = pais;
+		this.ciudad = ciudad;
+		this.usuarios = usuarios;
+		this.equipos = equipos;
+		this.camiones = camiones;
+		this.muelles = muelles;
+		this.buques = buques;
+		this.areasAlmacenamiento = areasAlmacenamiento;
+		this.salidas = salidas;
+		this.arribos = arribos;
+	}
 	public int getId() {
 		return id;
 	}

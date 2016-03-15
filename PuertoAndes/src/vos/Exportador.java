@@ -4,6 +4,12 @@ public class Exportador extends Usuario {
 	
 	private String RUT;
 
+	public Exportador(int id, String nombre, vos.Usuario.tipoPersona tipoPersona, vos.Usuario.tipoUsuario tipoUsuario,
+			String rUT) {
+		super(id, nombre, tipoPersona, tipoUsuario);
+		RUT = rUT;
+	}
+
 	public String getRUT() {
 		return RUT;
 	}

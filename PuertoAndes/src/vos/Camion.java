@@ -7,6 +7,12 @@ public class Camion {
 	private String nombre;
 	private ArrayList<Mercancia> mercancias;
 	
+	public Camion(int id, String nombre, ArrayList<Mercancia> mercancias) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.mercancias = mercancias;
+	}
 	public int getId() {
 		return id;
 	}

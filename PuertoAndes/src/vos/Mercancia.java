@@ -13,6 +13,16 @@ public class Mercancia {
 	private float cantidad;
 	private String propietario;
 	
+	public Mercancia(String id, float precio, Date fecha, claseMercancia proposito, float cantidad,
+			String propietario) {
+		super();
+		this.id = id;
+		this.precio = precio;
+		this.fecha = fecha;
+		this.proposito = proposito;
+		this.cantidad = cantidad;
+		this.propietario = propietario;
+	}
 	public String getId() {
 		return id;
 	}

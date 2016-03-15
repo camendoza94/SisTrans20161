@@ -15,7 +15,6 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import dao.*;
@@ -111,7 +110,7 @@ public class PuertoAndesMaster {
 	///////Transacciones////////////////////
 	////////////////////////////////////////
 
-	public boolean addSalidaBuque(SalidaBuque salidaBuque, Puerto puerto) throws Exception{
+	public boolean addSalidaBuque(SalidaBuque salidaBuque, Integer idPuerto) throws Exception{
 		boolean ok = false;
 		DAOAgentePortuario daoAgentePortuario = new DAOAgentePortuario();
 		try 
@@ -119,7 +118,7 @@ public class PuertoAndesMaster {
 			//////Transacción
 			this.conn = darConexion();
 			daoAgentePortuario.setConn(conn);
-			ok = daoAgentePortuario.addSalidaBuque(salidaBuque, puerto);
+			ok = daoAgentePortuario.addSalidaBuque(salidaBuque, idPuerto);
 			conn.commit();
 			return ok;
 		} catch (SQLException e) {

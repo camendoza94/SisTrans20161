@@ -7,12 +7,16 @@ public class Buque {
 	public enum tipoBuque{
 		RORO, PORTACONTENEDORES, MULTIPROPOSITO;
 	}
+	
+	public enum tipoMercancia{
+		GRANEL_SOLIDO, CONTENEDORES, GENERAL;
+	}
 	private int id;
 	private String nombre;
 	private String nombreAgente;
 	private float capacidad;
 	private boolean lleno;
-	private Mercancia tipoCarga; //Revisar TODO cambiar por enumeración
+	private tipoMercancia tipoCarga; //Revisar TODO cambiar por enumeración
 	private Date fechaIngreso;
 	private Date fechaSalida;
 	private String registroCapitania;
@@ -20,7 +24,24 @@ public class Buque {
 	private String origen;
 	private tipoBuque tipo;
 	private ArrayList<Mercancia> mercancias;
-	
+	public Buque(int id, String nombre, String nombreAgente, float capacidad, boolean lleno, tipoMercancia tipoCarga,
+			Date fechaIngreso, Date fechaSalida, String registroCapitania, String destino, String origen,
+			tipoBuque tipo, ArrayList<Mercancia> mercancias) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.nombreAgente = nombreAgente;
+		this.capacidad = capacidad;
+		this.lleno = lleno;
+		this.tipoCarga = tipoCarga;
+		this.fechaIngreso = fechaIngreso;
+		this.fechaSalida = fechaSalida;
+		this.registroCapitania = registroCapitania;
+		this.destino = destino;
+		this.origen = origen;
+		this.tipo = tipo;
+		this.mercancias = mercancias;
+	}
 	public int getId() {
 		return id;
 	}
@@ -81,10 +102,10 @@ public class Buque {
 	public void setOrigen(String origen) {
 		this.origen = origen;
 	}
-	public Mercancia getTipoCarga() {
+	public tipoMercancia getTipoCarga() {
 		return tipoCarga;
 	}
-	public void setTipoCarga(Mercancia tipoCarga) {
+	public void setTipoCarga(tipoMercancia tipoCarga) {
 		this.tipoCarga = tipoCarga;
 	}
 	public tipoBuque getTipo() {

@@ -4,6 +4,12 @@ public class Muelle {
 	private int id;
 	private String nombre;
 	private Buque buqueAtracado;
+	public Muelle(int id, String nombre, Buque buqueAtracado) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.buqueAtracado = buqueAtracado;
+	}
 	public int getId() {
 		return id;
 	}
