@@ -13,13 +13,16 @@ package tm;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Properties;
 
 import dao.*;
 import vos.*;
+import vos.Buque.tipoMercancia;
 
 /**
  * Fachada en patron singleton de la aplicación
@@ -206,8 +209,36 @@ public class PuertoAndesMaster {
 		}
 	}
 	//RFC1
-	public ArrayList<MovimientoBuque> consultarArribosSalidas(){
-		return null;
+	public ArrayList<MovimientoBuque> consultarArribosSalidas(Integer idPuerto,Date fechaIni, Date fechaFin, String nombreBuque,tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws Exception{
+		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
+		DAOConsultas daoPuertoAndes = new DAOConsultas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoPuertoAndes.setConn(conn);
+			movimientos = daoPuertoAndes.consultarArribosSalidas(idPuerto,fechaIni,fechaFin,nombreBuque,tipoMercancia,hora,orderBy,groupBy);
+			conn.commit();
+			return movimientos;
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPuertoAndes.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}	
 	}
 }
 

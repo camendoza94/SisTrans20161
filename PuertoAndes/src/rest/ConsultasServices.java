@@ -1,8 +1,13 @@
 package rest;
 
+import java.sql.Date;
+import java.sql.Time;
+import java.util.ArrayList;
+
 import javax.servlet.ServletContext;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -12,15 +17,17 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.PuertoAndesMaster;
+import vos.Buque.tipoMercancia;
 import vos.EntregaMercancia;
 import vos.Factura;
+import vos.MovimientoBuque;
 
 /**
  * Clase que expone servicios REST con ruta base: http://"ip o nombre de host":8080/PuertoAndes/rest/agentePortuario/...
  */
 
-@Path("operadorPortuario")
-public class OperadorPortuarioServices {
+@Path("consultas")
+public class ConsultasServices {
 
 	/**
 	 * Atributo que usa la anotación @Context para tener el ServletContext de la conexión actual.
@@ -41,40 +48,18 @@ public class OperadorPortuarioServices {
 		return "{ \"ERROR\": \""+ e.getMessage() + "\"}" ;
 	}
 	
-	//RF8
-	@POST
-	@Path("/entregaMercancia")
-	@Consumes(MediaType.APPLICATION_JSON)
+	//RFC1
+	@GET
+	@Path("/arribosSalidas")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addEntregaMercanciaImportador(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA, @QueryParam("idPuerto")Integer idPuerto){
+	public Response consultarArribosSalidas(@QueryParam("idPuerto")Integer idPuerto,@QueryParam("fechaIni")Date fechaIni, @QueryParam("fechaFin")Date fechaFin,@QueryParam("nombreBuque") String nombreBuque, @QueryParam("tipoMercancia") tipoMercancia tipoMercancia,@QueryParam("hora") Time hora, @QueryParam("orderBy")String orderBy, @QueryParam("groupBy")String groupBy){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		ArrayList<MovimientoBuque> movimientos;
 		try {
-			tm.addEntregaMercanciaImportador(mercancia, idAA, idPuerto);
+			movimientos = tm.consultarArribosSalidas(idPuerto,fechaIni,fechaFin,nombreBuque,tipoMercancia,hora,orderBy,groupBy);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(mercancia).build();
-	}
-
-	// TODO Cambiar documentación
-	//RF9
-    /**
-     * Método que expone servicio REST usando PUT que agrega el video que recibe en Json
-     * <b>URL: </b> http://"ip o nombre de host":8080/VideoAndes/rest/agentePortuario/salidaBuque
-     * @param video - video a agregar
-     * @return Json con el video que agrego o Json con el error que se produjo
-     */
-	@POST
-	@Path("/factura")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addFactura(Factura factura,@QueryParam("idPuerto") Integer idPuerto) {
-		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
-		try {
-			tm.addFactura(factura, idPuerto);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(factura).build();
+		return Response.status(200).entity(movimientos).build();
 	}
 }
