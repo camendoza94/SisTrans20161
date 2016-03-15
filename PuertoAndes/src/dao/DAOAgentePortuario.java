@@ -98,11 +98,11 @@ public class DAOAgentePortuario {
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		if(rs.next()){         
-			System.out.println("Este muelle sí está atracado");
+			System.out.println("Este buque sí está atracado");
 			encontrado = true;
 		}
 		else{
-			System.out.println("Este muelle no está atracado");
+			System.out.println("Este buque no está atracado");
 		}
 		return encontrado;
 	}

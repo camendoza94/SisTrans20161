@@ -141,5 +141,37 @@ public class PuertoAndesMaster {
 			}
 		}		
 	}
+	
+	public boolean addFactura(Factura factura, Integer idPuerto) throws Exception{
+		boolean ok = false;
+		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoOperadorPortuario.setConn(conn);
+			ok = daoOperadorPortuario.addFactura(factura, idPuerto);
+			conn.commit();
+			return ok;
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoOperadorPortuario.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}		
+	}
 }
 
