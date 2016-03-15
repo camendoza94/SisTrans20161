@@ -1,9 +1,11 @@
 package vos;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class SalidaBuque {
 	private Date fecha;
+	private Time hora;
 	private Buque buque;
 	
 	public SalidaBuque(Date fecha, Buque buque) {
@@ -25,5 +27,11 @@ public class SalidaBuque {
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	public Time getHora() {
+		return hora;
+	}
+	public void setHora(Time hora) {
+		this.hora = hora;
 	}
 }

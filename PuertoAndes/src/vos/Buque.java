@@ -17,8 +17,6 @@ public class Buque {
 	private float capacidad;
 	private boolean lleno;
 	private tipoMercancia tipoCarga; //Revisar TODO cambiar por enumeración
-	private Date fechaIngreso;
-	private Date fechaSalida;
 	private String registroCapitania;
 	private String destino;
 	private String origen;
@@ -34,8 +32,6 @@ public class Buque {
 		this.capacidad = capacidad;
 		this.lleno = lleno;
 		this.tipoCarga = tipoCarga;
-		this.fechaIngreso = fechaIngreso;
-		this.fechaSalida = fechaSalida;
 		this.registroCapitania = registroCapitania;
 		this.destino = destino;
 		this.origen = origen;
@@ -74,18 +70,6 @@ public class Buque {
 	}
 	public void setLleno(boolean lleno) {
 		this.lleno = lleno;
-	}
-	public Date getFechaIngreso() {
-		return fechaIngreso;
-	}
-	public void setFechaIngreso(Date fechaIngreso) {
-		this.fechaIngreso = fechaIngreso;
-	}
-	public Date getFechaSalida() {
-		return fechaSalida;
-	}
-	public void setFechaSalida(Date fechaSalida) {
-		this.fechaSalida = fechaSalida;
 	}
 	public String getRegistroCapitania() {
 		return registroCapitania;

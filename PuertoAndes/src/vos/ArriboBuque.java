@@ -1,9 +1,11 @@
 package vos;
 
 import java.sql.Date;
+import java.sql.Time;
 
 public class ArriboBuque {
 	private Date fecha;
+	private Time hora;
 	private Puerto puertoAnterior;
 	private Puerto puertoSiguiente;	
 	private Buque buque;
@@ -41,6 +43,10 @@ public class ArriboBuque {
 	public void setBuque(Buque buque) {
 		this.buque = buque;
 	}
-	
-	
+	public Time getHora() {
+		return hora;
+	}
+	public void setHora(Time hora) {
+		this.hora = hora;
+	}	
 }

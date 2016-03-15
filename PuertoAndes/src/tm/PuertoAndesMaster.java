@@ -142,17 +142,15 @@ public class PuertoAndesMaster {
 		}		
 	}
 	
-	public boolean addFactura(Factura factura, Integer idPuerto) throws Exception{
-		boolean ok = false;
+	public void addFactura(Factura factura, Integer idPuerto) throws Exception{
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoOperadorPortuario.setConn(conn);
-			ok = daoOperadorPortuario.addFactura(factura, idPuerto);
+			daoOperadorPortuario.addFactura(factura, idPuerto);
 			conn.commit();
-			return ok;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();

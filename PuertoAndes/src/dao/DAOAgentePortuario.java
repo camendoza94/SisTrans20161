@@ -88,7 +88,7 @@ public class DAOAgentePortuario {
 	}
 	
 	//RF5-1
-	public boolean buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
+	private boolean buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
 		boolean encontrado = false;
 
 		String sql = "SELECT * FROM MUELLES WHERE ID_PUERTO =" + idPuerto;
