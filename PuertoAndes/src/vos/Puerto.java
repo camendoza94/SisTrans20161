@@ -39,6 +39,9 @@ public class Puerto {
 		this.entregas = entregas;
 		this.facturas = facturas;
 	}
+	public Puerto(int id) {
+		this.id = id;
+	}
 	public int getId() {
 		return id;
 	}

@@ -41,6 +41,9 @@ public class Buque {
 	public Buque(){
 		
 	}
+	public Buque(int id){
+		this.id = id;
+	}
 	public int getId() {
 		return id;
 	}

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import vos.*;
 import vos.Buque.tipoMercancia;
+import vos.MovimientoBuque.tipoMovimiento;
 
 /**
  * Clase DAO que se conecta la base de datos usando JDBC para resolver los requerimientos de la aplicación
@@ -79,15 +80,49 @@ public class DAOConsultas {
 	 * @param orderBy
 	 * @param groupBy
 	 * @return
+	 * @throws SQLException, Exception 
 	 */
 	public ArrayList<MovimientoBuque> consultarArribosSalidas(Integer idPuerto, Date fechaIni, Date fechaFin, String nombreBuque,
-			tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) {
+			tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws SQLException, Exception {
+		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
 		String sql = "SELECT * FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO=" + idPuerto;
-		sql+= ""
-		
-
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-		recursos.add(prepStmt);
-		ResultSet rs = prepStmt.executeQuery();
+		String sql2 = "";
+		if(fechaIni != null && fechaFin != null){
+			sql += " AND FECHA BETWEEN " + fechaIni  + " AND " + fechaFin;
+		}
+		if(nombreBuque != null){
+			sql += " AND ID_BUQUE = (SELECT ID FROM BUQUES WHERE NOMBRE ='" + nombreBuque + "'";
+		}
+		if(tipoMercancia != null){
+			sql += " AND ID_BUQUE IN (SELECT ID FROM BUQUES WHERE TIPO_MERCANCIA ='" + tipoMercancia + "'";
+		}
+		if(hora != null){
+			sql += " AND HORA =" + hora;
+		}
+		if(groupBy != null){
+			sql2 = "SELECT " + groupBy + ", COUNT(*) FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO=" + idPuerto + " GROUP BY " + groupBy;
+		}
+		if(orderBy != null){
+			sql += " ORDER BY " + orderBy;
+			sql2 += " ORDER BY " + orderBy;
+		}
+		ResultSet rs;
+		if(groupBy == null){
+			System.out.println("SQL stmt:" + sql);
+			PreparedStatement prepStmt = conn.prepareStatement(sql);
+			recursos.add(prepStmt);
+			 rs = prepStmt.executeQuery();
+		}
+		else {
+			System.out.println("SQL stmt:" + sql2);
+			PreparedStatement prepStmt = conn.prepareStatement(sql2);
+			recursos.add(prepStmt);
+			rs = prepStmt.executeQuery();
+		}
+		while(rs.next()){
+			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getTime("HORA"), new Puerto(rs.getInt("ID_PUERTO_ANTERIOR")), new Puerto (rs.getInt("ID_PUERTO_SIGUIENTE")), new Buque(rs.getInt("ID_BUQUE")), (tipoMovimiento)rs.getObject("TIPO"));
+			movimientos.add(movimiento);
+		}
+		return movimientos;
 	}
 }
