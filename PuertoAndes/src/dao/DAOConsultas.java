@@ -138,8 +138,8 @@ public class DAOConsultas {
 	 */
 	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Integer idPuerto, Date fechaIni, Date fechaFin) throws SQLException, Exception{
 		ArrayList<AreaAlmacenamiento> areasMasUtilizadas = new ArrayList<AreaAlmacenamiento>();
-		String sql = "SELECT A.*, B.USOS FROM (SELECT ID_AREA_ALMACENAMIENTO, COUNT(*) AS USOS FROM ENTREGA_MERCANCIA WHERE PUERTO=" + idPuerto;
-		sql += " AND FECHA BETWEEN " + fechaIni + " AND " + fechaFin + " HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM ENTREGA_MERCANCIA WHERE PUERTO=" + idPuerto + " AND FECHA BETWEEN " + fechaIni + " AND " + fechaFin +" GROUP BY ID_AREA_ALMACENAMIENTO) GROUP BY ID_AREA_ALMACENAMIENTO) B JOIN AREAS_ALMACENAMIENTO A ON B.ID_AREA_ALMACENAMIENTO = A.ID_AREA";
+		String sql = "SELECT A.*, B.USOS FROM (SELECT ID_AREA_ALMACENAMIENTO, COUNT(*) AS USOS FROM ENTREGA_MERCANCIA WHERE ID_PUERTO=" + idPuerto;
+		sql += " AND FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD') AND TO_DATE('" + fechaFin + "','YYYY-MM-DD') HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM ENTREGA_MERCANCIA WHERE ID_PUERTO=" + idPuerto + " AND FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD') AND TO_DATE('" + fechaFin +"','YYYY-MM-DD') GROUP BY ID_AREA_ALMACENAMIENTO) GROUP BY ID_AREA_ALMACENAMIENTO) B JOIN AREAS_ALMACENAMIENTO A ON B.ID_AREA_ALMACENAMIENTO = A.ID_AREA";
 		System.out.println("SQL stmt:" + sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);

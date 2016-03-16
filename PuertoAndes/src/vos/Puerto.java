@@ -11,7 +11,6 @@ public class Puerto {
 	private ArrayList<Equipo> equipos;
 	private ArrayList<Camion> camiones;
 	private ArrayList<Muelle> muelles;
-	private ArrayList<Buque> buques;
 	private ArrayList<AreaAlmacenamiento> areasAlmacenamiento;
 	private ArrayList<MovimientoBuque> movimientos;
 	private ArrayList<EntregaMercancia> entregas;
@@ -21,7 +20,7 @@ public class Puerto {
 		
 	}
 	public Puerto(int id, String nombre, String pais, String ciudad, ArrayList<Usuario> usuarios,
-			ArrayList<Equipo> equipos, ArrayList<Camion> camiones, ArrayList<Muelle> muelles, ArrayList<Buque> buques,
+			ArrayList<Equipo> equipos, ArrayList<Camion> camiones, ArrayList<Muelle> muelles,
 			ArrayList<AreaAlmacenamiento> areasAlmacenamiento, ArrayList<MovimientoBuque> movimientos,
 			ArrayList<EntregaMercancia> entregas, ArrayList<Factura> facturas) {
 		super();
@@ -33,7 +32,6 @@ public class Puerto {
 		this.equipos = equipos;
 		this.camiones = camiones;
 		this.muelles = muelles;
-		this.buques = buques;
 		this.areasAlmacenamiento = areasAlmacenamiento;
 		this.movimientos = movimientos;
 		this.entregas = entregas;
@@ -89,12 +87,6 @@ public class Puerto {
 	}
 	public void setMuelles(ArrayList<Muelle> muelles) {
 		this.muelles = muelles;
-	}
-	public ArrayList<Buque> getBuques() {
-		return buques;
-	}
-	public void setBuques(ArrayList<Buque> buques) {
-		this.buques = buques;
 	}
 	public ArrayList<AreaAlmacenamiento> getAreasAlmacenamiento() {
 		return areasAlmacenamiento;
