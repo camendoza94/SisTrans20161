@@ -25,6 +25,10 @@ public class Mercancia {
 		this.cantidad = cantidad;
 		this.propietario = propietario;
 	}
+	public Mercancia(Integer id) {
+		super();
+		this.id = id;
+	}
 	public Integer getId() {
 		return id;
 	}

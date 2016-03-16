@@ -9,6 +9,7 @@ public class EntregaMercancia {
 	private Mercancia mercancia;
 	private Date fecha;
 	private tipoEntrega tipo;
+	private AreaAlmacenamiento area;
 	public Mercancia getMercancia() {
 		return mercancia;
 	}
@@ -26,5 +27,11 @@ public class EntregaMercancia {
 	}
 	public void setTipo(tipoEntrega tipo) {
 		this.tipo = tipo;
+	}
+	public AreaAlmacenamiento getArea() {
+		return area;
+	}
+	public void setArea(AreaAlmacenamiento area) {
+		this.area = area;
 	}
 }

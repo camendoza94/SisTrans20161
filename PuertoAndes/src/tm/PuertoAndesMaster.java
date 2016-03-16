@@ -115,17 +115,15 @@ public class PuertoAndesMaster {
 	////////////////////////////////////////
 	
 	//RF5
-	public boolean addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws Exception{
-		boolean ok = false;
+	public void addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws Exception{
 		DAOAgentePortuario daoAgentePortuario = new DAOAgentePortuario();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoAgentePortuario.setConn(conn);
-			ok = daoAgentePortuario.addSalidaBuque(salidaBuque, idPuerto);
+			daoAgentePortuario.addSalidaBuque(salidaBuque, idPuerto);
 			conn.commit();
-			return ok;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
@@ -240,5 +238,38 @@ public class PuertoAndesMaster {
 			}
 		}	
 	}
+	//RFC4
+	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Integer idPuerto,Date fechaIni, Date fechaFin) throws Exception{
+		ArrayList<AreaAlmacenamiento> areas = new ArrayList<AreaAlmacenamiento>();
+		DAOConsultas daoPuertoAndes = new DAOConsultas();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoPuertoAndes.setConn(conn);
+			areas = daoPuertoAndes.consultarAAMasUtilizada(idPuerto,fechaIni,fechaFin);
+			conn.commit();
+			return areas;
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPuertoAndes.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}	
+	}
+
 }
 

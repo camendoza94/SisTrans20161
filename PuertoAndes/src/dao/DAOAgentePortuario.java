@@ -67,9 +67,7 @@ public class DAOAgentePortuario {
 	}
 		
 	//RF5-1
-	private boolean buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
-		boolean encontrado = false;
-
+	private void buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
 		String sql = "SELECT * FROM MUELLES WHERE ID_PUERTO =" + idPuerto;
 		sql += " AND ID_BUQUE =" + buque.getId();
 
@@ -78,12 +76,10 @@ public class DAOAgentePortuario {
 		ResultSet rs = prepStmt.executeQuery();
 		if(rs.next()){         
 			System.out.println("Este buque sí está atracado");
-			encontrado = true;
 		}
 		else{
-			System.out.println("Este buque no está atracado a ningun muelle del puerto");
+			throw new Exception("Este buque no está atracado a ningun muelle del puerto");
 		}
-		return encontrado;
 	}
 	
 	//RF5
@@ -94,24 +90,20 @@ public class DAOAgentePortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public boolean addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
-		if(buscarBuquePuerto(salidaBuque.getBuque(), idPuerto)){
-			String sql = "INSERT INTO MOVIMIENTO_BUQUES VALUES (";
-			sql += salidaBuque.getBuque() + ",";
-			sql += salidaBuque.getFecha() + ",";
-			sql += idPuerto + ",";
-			sql += salidaBuque.getPuertoAnterior() + ",";
-			sql += salidaBuque.getPuertoSiguiente() + ",";
-			sql += "SALIDA" + ")";
-	
-			System.out.println("SQL stmt:" + sql);
-	
-			PreparedStatement prepStmt = conn.prepareStatement(sql);
-			recursos.add(prepStmt);
-			prepStmt.executeQuery();
-			return true;
-		}
-		//Throw exception?
-		return false;
+	public void addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
+		buscarBuquePuerto(salidaBuque.getBuque(), idPuerto);
+		String sql = "INSERT INTO MOVIMIENTO_BUQUES VALUES (TO_DATE('";
+		sql += salidaBuque.getFecha() + "','YYYY-MM-DD'),";
+		sql += idPuerto + ",";
+		sql += salidaBuque.getPuertoAnterior().getId() + ",";
+		sql += salidaBuque.getPuertoSiguiente().getId() + ",";
+		sql += salidaBuque.getBuque().getId() + ",'";
+		sql += "SALIDA" + "')";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();	
 	}
 }

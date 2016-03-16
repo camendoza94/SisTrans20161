@@ -85,22 +85,22 @@ public class DAOConsultas {
 	public ArrayList<MovimientoBuque> consultarArribosSalidas(Integer idPuerto, Date fechaIni, Date fechaFin, String nombreBuque,
 			tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws SQLException, Exception {
 		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
-		String sql = "SELECT * FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO=" + idPuerto;
+		String sql = "SELECT * FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO_ACTUAL=" + idPuerto;
 		String sql2 = "";
 		if(fechaIni != null && fechaFin != null){
 			sql += " AND FECHA BETWEEN " + fechaIni  + " AND " + fechaFin;
 		}
 		if(nombreBuque != null){
-			sql += " AND ID_BUQUE = (SELECT ID FROM BUQUES WHERE NOMBRE ='" + nombreBuque + "'";
+			sql += " AND ID_BUQUE = (SELECT ID_BUQUE FROM BUQUES WHERE NOMBRE ='" + nombreBuque + "')";
 		}
 		if(tipoMercancia != null){
-			sql += " AND ID_BUQUE IN (SELECT ID FROM BUQUES WHERE TIPO_MERCANCIA ='" + tipoMercancia + "'";
+			sql += " AND ID_BUQUE IN (SELECT ID_BUQUE FROM BUQUES WHERE TIPO_MERCANCIA ='" + tipoMercancia + "')";
 		}
 		if(hora != null){
 			sql += " AND TO_CHAR(FECHA, HH:MM) = " + hora;
 		}
 		if(groupBy != null){
-			sql2 = "SELECT " + groupBy + ", COUNT(*) FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO=" + idPuerto + " GROUP BY " + groupBy;
+			sql2 = "SELECT " + groupBy + ", COUNT(*) FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO_ACTUAL=" + idPuerto + " GROUP BY " + groupBy;
 		}
 		if(orderBy != null){
 			sql += " ORDER BY " + orderBy;
@@ -111,7 +111,7 @@ public class DAOConsultas {
 			System.out.println("SQL stmt:" + sql);
 			PreparedStatement prepStmt = conn.prepareStatement(sql);
 			recursos.add(prepStmt);
-			 rs = prepStmt.executeQuery();
+			rs = prepStmt.executeQuery();
 		}
 		else {
 			System.out.println("SQL stmt:" + sql2);
@@ -124,5 +124,39 @@ public class DAOConsultas {
 			movimientos.add(movimiento);
 		}
 		return movimientos;
+	}
+	
+	//RFC4
+	/**
+	 * 
+	 * @param idPuerto
+	 * @param fechaIni
+	 * @param fechaFin
+	 * @return
+	 * @throws SQLException
+	 * @throws Exception
+	 */
+	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Integer idPuerto, Date fechaIni, Date fechaFin) throws SQLException, Exception{
+		ArrayList<AreaAlmacenamiento> areasMasUtilizadas = new ArrayList<AreaAlmacenamiento>();
+		String sql = "SELECT A.*, B.USOS FROM (SELECT ID_AREA_ALMACENAMIENTO, COUNT(*) AS USOS FROM ENTREGA_MERCANCIA WHERE PUERTO=" + idPuerto;
+		sql += " AND FECHA BETWEEN " + fechaIni + " AND " + fechaFin + " HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM ENTREGA_MERCANCIA WHERE PUERTO=" + idPuerto + " AND FECHA BETWEEN " + fechaIni + " AND " + fechaFin +" GROUP BY ID_AREA_ALMACENAMIENTO) GROUP BY ID_AREA_ALMACENAMIENTO) B JOIN AREAS_ALMACENAMIENTO A ON B.ID_AREA_ALMACENAMIENTO = A.ID_AREA";
+		System.out.println("SQL stmt:" + sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		while(rs.next()){
+			String sql2 = "SELECT ID_MERCANCIA FROM MERCANCIAS WHERE ID_AREA_ALMACENAMIENTO =" + rs.getInt("ID_AREA");
+			System.out.println("SQL stmt:" + sql2);
+			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+			recursos.add(prepStmt2);
+			ResultSet rs2 = prepStmt2.executeQuery();
+			ArrayList<Mercancia> mercancias = new ArrayList<Mercancia>();
+			while(rs2.next()){
+				mercancias.add(new Mercancia(rs2.getInt("ID_MERCANCIA")));
+			}
+			AreaAlmacenamiento AA = new AreaAlmacenamiento(rs.getInt("ID_AREA"),rs.getBoolean("LLENO"), mercancias);
+			areasMasUtilizadas.add(AA);
+		}
+		return areasMasUtilizadas;
 	}
 }

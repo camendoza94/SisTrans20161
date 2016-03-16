@@ -9,14 +9,14 @@ public class Buque {
 	}
 	
 	public enum tipoMercancia{
-		GRANEL_SOLIDO, CONTENEDORES, GENERAL;
+		GRANEL_SOLIDO, GRANEL_LIQUIDO, CONTENEDORES, GENERAL, RODADA;
 	}
 	private int id;
 	private String nombre;
 	private String nombreAgente;
 	private float capacidad;
 	private boolean lleno;
-	private tipoMercancia tipoCarga; //Revisar TODO cambiar por enumeración
+	private tipoMercancia tipoCarga;
 	private String registroCapitania;
 	private String destino;
 	private String origen;

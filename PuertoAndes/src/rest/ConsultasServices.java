@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.PuertoAndesMaster;
+import vos.AreaAlmacenamiento;
 import vos.Buque.tipoMercancia;
 import vos.EntregaMercancia;
 import vos.Factura;
@@ -61,5 +62,20 @@ public class ConsultasServices {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
 		return Response.status(200).entity(movimientos).build();
+	}
+	
+	//RFC4
+	@GET
+	@Path("/areaMasUtilizada")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarAAMasUtilizada(@QueryParam("idPuerto")Integer idPuerto,@QueryParam("fechaIni")Date fechaIni, @QueryParam("fechaFin")Date fechaFin){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		ArrayList<AreaAlmacenamiento> areas;
+		try {
+			areas = tm.consultarAAMasUtilizada(idPuerto,fechaIni,fechaFin);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(areas).build();
 	}
 }

@@ -12,7 +12,9 @@ public class Exportador extends Usuario {
 	public Exportador(){
 		
 	}
-
+	public Exportador(int id){
+		super(id);
+	}
 	public String getRUT() {
 		return RUT;
 	}
