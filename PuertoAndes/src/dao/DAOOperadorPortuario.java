@@ -112,7 +112,7 @@ public class DAOOperadorPortuario {
 	 */
 	private void addMercanciasFactura(Factura factura)throws SQLException, Exception {
 		String sql = "SELECT ID_MERCANCIA FROM MERCANCIAS WHERE ID_BUQUE=";
-		sql += factura.getBuque().getId() + ")";
+		sql += factura.getBuque().getId();
 
 		System.out.println("SQL stmt:" + sql);
 
