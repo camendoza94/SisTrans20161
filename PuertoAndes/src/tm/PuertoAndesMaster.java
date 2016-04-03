@@ -146,7 +146,7 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF6
-	public Object[] addCargaTipoABuque(Integer idMercancia, Integer idBuque) throws Exception{
+	public Object[] addCargaTipoABuque(int idMercancia, int idBuque) throws Exception{
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
 		try 
 		{
@@ -209,7 +209,7 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF8
-	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA) throws Exception {
+	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, int idAA) throws Exception {
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();	
 		try 
 		{

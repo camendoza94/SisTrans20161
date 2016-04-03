@@ -46,7 +46,7 @@ public class OperadorPortuarioServices {
 	@Path("/cargaABuque")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addCargaTipoABuque(@QueryParam("idMercancia") Integer idMercancia, @QueryParam("idBuque")Integer idBuque){
+	public Response addCargaTipoABuque(@QueryParam("idMercancia") int idMercancia, @QueryParam("idBuque")int idBuque){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		Object[] mercancia;
 		try {
@@ -62,7 +62,7 @@ public class OperadorPortuarioServices {
 	@Path("/entregaMercancia")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addEntregaMercanciaImportador(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA){
+	public Response addEntregaMercanciaImportador(EntregaMercancia mercancia, @QueryParam("idAA")int idAA){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		try {
 			tm.addEntregaMercanciaImportador(mercancia, idAA);
