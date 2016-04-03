@@ -145,6 +145,38 @@ public class PuertoAndesMaster {
 		}		
 	}
 	
+	//RF6
+	public Object[] addCargaTipoABuque(Integer idMercancia, Integer idBuque) throws Exception{
+		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoOperadorPortuario.setConn(conn);
+			Object[] carga = daoOperadorPortuario.addCargaTipoABuque(idMercancia, idBuque);;
+			conn.commit();
+			return carga;
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoOperadorPortuario.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}		
+	}
+	
 	//RF9
 	public void addFactura(Factura factura) throws Exception{
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();

@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import vos.*;
+import vos.AreaAlmacenamiento.estado;
+import vos.Mercancia.claseMercancia;
 
 /**
  * Clase DAO que se conecta la base de datos usando JDBC para resolver los requerimientos de la aplicación
@@ -74,8 +76,53 @@ public class DAOOperadorPortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public void addCargaTipoABuque(Buque buque) throws SQLException, Exception{
-		
+	public Object[] addCargaTipoABuque(Integer idMercancia, Integer idBuque) throws SQLException, Exception{
+		Object[] respuesta = verificarTipoMercanciaYBuque(idMercancia, idBuque);
+		String sql = "INSERT INTO MERCANCIA_EN_BUQUE VALUES (";
+		sql += idMercancia + ",";
+		sql += idBuque + "')";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+		return respuesta;
+	}
+	
+	private Object[] verificarTipoMercanciaYBuque(Integer idMercancia, Integer idBuque) throws SQLException, Exception {
+		Object[] respuesta = new Object[2];
+		String sql = "SELECT * FROM MERCANCIA WHERE ID_MERCANCIA = " + idMercancia;
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		if(rs.next()){
+			String sql2 = "SELECT * FROM BUQUES WHERE ID_BUQUE = " + idBuque;
+			PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
+			recursos.add(prepStmt2);
+			ResultSet rs2 = prepStmt2.executeQuery();
+			if(rs2.next()){
+				String tipoBuque = rs2.getString("TIPO_BUQUE");
+				String tipoMercancia = rs.getString("TIPO_CARGA");
+				if(tipoBuque.compareTo(vos.Buque.tipoBuque.RORO.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.RODADA.name()) != 0){
+					throw new Exception("Este buque no puede llevar una mercancia de este tipo");
+				}
+				else if(tipoBuque.compareTo(vos.Buque.tipoBuque.PORTACONTENEDORES.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.CONTENEDORES.name()) != 0){
+					throw new Exception("Este buque no puede llevar una mercancia de este tipo");
+				}
+				else {
+					respuesta[0] = new Buque(idBuque, rs2.getString("NOMBRE"), rs2.getString("NOMBRE_AGENTE"), rs2.getFloat("CAPACIDAD"), rs2.getBoolean("LLENO"), rs2.getString("REGISTRO_CAPITANIA"), rs2.getString("DESTINO"), rs2.getString("ORIGEN"), vos.Buque.tipoBuque.valueOf(tipoBuque) , estado.valueOf(rs2.getString("ESTADO")), null);
+					respuesta[1] = new Mercancia(idMercancia,rs.getFloat("PRECIO"), claseMercancia.valueOf(rs.getString("PROPOSITO")), rs.getFloat("VOLUMEN"), new Usuario(rs.getInt("PROPIETARIO")), rs.getString("ORIGEN"), rs.getString("DESTINO"), vos.Buque.tipoMercancia.valueOf(tipoMercancia), rs.getFloat("PESO"));
+					return respuesta;
+				}
+			} 
+			else {
+				throw new Exception("Este buque no existe");
+			}
+		}
+		else{
+			throw new Exception("Esta mercancia no existe");
+		}
 	}
 	
 	//RF9

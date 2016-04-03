@@ -3,7 +3,7 @@ package vos;
 import vos.Buque.tipoMercancia;
 
 public class Mercancia {
-	private enum claseMercancia{
+	public enum claseMercancia{
 		IMPORTACION, EXPORTACION;
 	}
 	private Integer id;

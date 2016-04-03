@@ -143,7 +143,7 @@ public class DAOConsultas {
 			rs = prepStmt.executeQuery();
 		}
 		while(rs.next()){
-			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getString("PUERTO_ANTERIOR"), rs.getString("PUERTO_SIGUIENTE"), new Buque(rs.getInt("ID_BUQUE")), (tipoMovimiento)rs.getObject("TIPO"));
+			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getString("PUERTO_ANTERIOR"), rs.getString("PUERTO_SIGUIENTE"), new Buque(rs.getInt("ID_BUQUE")), tipoMovimiento.valueOf(rs.getString("TIPO")));
 			movimientos.add(movimiento);
 		}
 		return movimientos;
