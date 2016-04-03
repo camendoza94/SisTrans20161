@@ -115,14 +115,14 @@ public class PuertoAndesMaster {
 	////////////////////////////////////////
 	
 	//RF5
-	public void addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws Exception{
+	public void addSalidaBuque(MovimientoBuque salidaBuque) throws Exception{
 		DAOAgentePortuario daoAgentePortuario = new DAOAgentePortuario();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoAgentePortuario.setConn(conn);
-			daoAgentePortuario.addSalidaBuque(salidaBuque, idPuerto);
+			daoAgentePortuario.addSalidaBuque(salidaBuque);
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -146,14 +146,14 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF9
-	public void addFactura(Factura factura, Integer idPuerto) throws Exception{
+	public void addFactura(Factura factura) throws Exception{
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoOperadorPortuario.setConn(conn);
-			daoOperadorPortuario.addFactura(factura, idPuerto);
+			daoOperadorPortuario.addFactura(factura);
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -177,14 +177,14 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF8
-	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA, Integer idPuerto) throws Exception {
+	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA) throws Exception {
 		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();	
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoOperadorPortuario.setConn(conn);
-			daoOperadorPortuario.addEntregaMercanciaImportador(mercancia, idAA, idPuerto);
+			daoOperadorPortuario.addEntregaMercanciaImportador(mercancia, idAA);
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -207,7 +207,7 @@ public class PuertoAndesMaster {
 		}
 	}
 	//RFC1
-	public ArrayList<MovimientoBuque> consultarArribosSalidas(Integer idPuerto,Date fechaIni, Date fechaFin, String nombreBuque,tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws Exception{
+	public ArrayList<MovimientoBuque> consultarArribosSalidas(Date fechaIni, Date fechaFin, String nombreBuque,tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws Exception{
 		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
 		DAOConsultas daoPuertoAndes = new DAOConsultas();
 		try 
@@ -215,7 +215,7 @@ public class PuertoAndesMaster {
 			//////Transacción
 			this.conn = darConexion();
 			daoPuertoAndes.setConn(conn);
-			movimientos = daoPuertoAndes.consultarArribosSalidas(idPuerto,fechaIni,fechaFin,nombreBuque,tipoMercancia,hora,orderBy,groupBy);
+			movimientos = daoPuertoAndes.consultarArribosSalidas(fechaIni,fechaFin,nombreBuque,tipoMercancia,hora,orderBy,groupBy);
 			conn.commit();
 			return movimientos;
 		} catch (SQLException e) {
@@ -239,7 +239,7 @@ public class PuertoAndesMaster {
 		}	
 	}
 	//RFC4
-	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Integer idPuerto,Date fechaIni, Date fechaFin) throws Exception{
+	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Date fechaIni, Date fechaFin) throws Exception{
 		ArrayList<AreaAlmacenamiento> areas = new ArrayList<AreaAlmacenamiento>();
 		DAOConsultas daoPuertoAndes = new DAOConsultas();
 		try 
@@ -247,7 +247,7 @@ public class PuertoAndesMaster {
 			//////Transacción
 			this.conn = darConexion();
 			daoPuertoAndes.setConn(conn);
-			areas = daoPuertoAndes.consultarAAMasUtilizada(idPuerto,fechaIni,fechaFin);
+			areas = daoPuertoAndes.consultarAAMasUtilizada(fechaIni,fechaFin);
 			conn.commit();
 			return areas;
 		} catch (SQLException e) {

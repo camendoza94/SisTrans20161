@@ -82,25 +82,48 @@ public class DAOConsultas {
 	 * @return
 	 * @throws SQLException, Exception 
 	 */
-	public ArrayList<MovimientoBuque> consultarArribosSalidas(Integer idPuerto, Date fechaIni, Date fechaFin, String nombreBuque,
+	public ArrayList<MovimientoBuque> consultarArribosSalidas(Date fechaIni, Date fechaFin, String nombreBuque,
 			tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws SQLException, Exception {
 		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
-		String sql = "SELECT * FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO_ACTUAL=" + idPuerto;
+		String sql = "SELECT * FROM MOVIMIENTO_BUQUES";
 		String sql2 = "";
+		boolean otro = false;
 		if(fechaIni != null && fechaFin != null){
-			sql += " AND FECHA BETWEEN " + fechaIni  + " AND " + fechaFin;
+			otro = true;
+			sql += " WHERE FECHA BETWEEN " + fechaIni  + " AND " + fechaFin;
 		}
 		if(nombreBuque != null){
-			sql += " AND ID_BUQUE = (SELECT ID_BUQUE FROM BUQUES WHERE NOMBRE ='" + nombreBuque + "')";
+			String temp =  "ID_BUQUE = (SELECT ID_BUQUE FROM BUQUES WHERE NOMBRE ='" + nombreBuque + "')";
+			if(otro == true){
+				sql += " AND " + temp;
+			}
+			else {
+				otro = true;
+				sql += " WHERE " + temp;
+			}
 		}
 		if(tipoMercancia != null){
-			sql += " AND ID_BUQUE IN (SELECT ID_BUQUE FROM BUQUES WHERE TIPO_MERCANCIA ='" + tipoMercancia + "')";
+			String temp = "ID_BUQUE IN (SELECT ID_BUQUE FROM BUQUES WHERE TIPO_MERCANCIA ='" + tipoMercancia + "')";
+			if(otro == true){
+				sql += " AND " + temp;
+			}
+			else {
+				otro = true;
+				sql += " WHERE " + temp;
+			}
 		}
 		if(hora != null){
-			sql += " AND TO_CHAR(FECHA, HH:MM) = " + hora;
+			String temp = " AND TO_CHAR(FECHA, HH:MM) = " + hora;
+			if(otro == true){
+				sql += " AND " + temp;
+			}
+			else {
+				otro = true;
+				sql += " WHERE " + temp;
+			}
 		}
 		if(groupBy != null){
-			sql2 = "SELECT " + groupBy + ", COUNT(*) FROM MOVIMIENTO_BUQUES WHERE ID_PUERTO_ACTUAL=" + idPuerto + " GROUP BY " + groupBy;
+			sql2 = "SELECT " + groupBy + ", COUNT(*) FROM MOVIMIENTO_BUQUES GROUP BY " + groupBy;
 		}
 		if(orderBy != null){
 			sql += " ORDER BY " + orderBy;
@@ -120,7 +143,7 @@ public class DAOConsultas {
 			rs = prepStmt.executeQuery();
 		}
 		while(rs.next()){
-			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), new Puerto(rs.getInt("ID_PUERTO_ANTERIOR")), new Puerto (rs.getInt("ID_PUERTO_SIGUIENTE")), new Buque(rs.getInt("ID_BUQUE")), (tipoMovimiento)rs.getObject("TIPO"));
+			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getString("PUERTO_ANTERIOR"), rs.getString("PUERTO_SIGUIENTE"), new Buque(rs.getInt("ID_BUQUE")), (tipoMovimiento)rs.getObject("TIPO"));
 			movimientos.add(movimiento);
 		}
 		return movimientos;
@@ -136,10 +159,10 @@ public class DAOConsultas {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Integer idPuerto, Date fechaIni, Date fechaFin) throws SQLException, Exception{
+	public ArrayList<AreaAlmacenamiento> consultarAAMasUtilizada(Date fechaIni, Date fechaFin) throws SQLException, Exception{
 		ArrayList<AreaAlmacenamiento> areasMasUtilizadas = new ArrayList<AreaAlmacenamiento>();
-		String sql = "SELECT A.*, B.USOS FROM (SELECT ID_AREA_ALMACENAMIENTO, COUNT(*) AS USOS FROM ENTREGA_MERCANCIA WHERE ID_PUERTO=" + idPuerto;
-		sql += " AND FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD') AND TO_DATE('" + fechaFin + "','YYYY-MM-DD') HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM ENTREGA_MERCANCIA WHERE ID_PUERTO=" + idPuerto + " AND FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD') AND TO_DATE('" + fechaFin +"','YYYY-MM-DD') GROUP BY ID_AREA_ALMACENAMIENTO) GROUP BY ID_AREA_ALMACENAMIENTO) B JOIN AREAS_ALMACENAMIENTO A ON B.ID_AREA_ALMACENAMIENTO = A.ID_AREA";
+		String sql = "SELECT A.*, B.USOS FROM (SELECT ID_AREA_ALMACENAMIENTO, COUNT(*) AS USOS FROM ENTREGA_MERCANCIA";
+		sql += " WHERE FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD') AND TO_DATE('" + fechaFin + "','YYYY-MM-DD') HAVING COUNT(*) = (SELECT MAX(COUNT(*)) FROM ENTREGA_MERCANCIA WHERE FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD') AND TO_DATE('" + fechaFin +"','YYYY-MM-DD') GROUP BY ID_AREA_ALMACENAMIENTO) GROUP BY ID_AREA_ALMACENAMIENTO) B JOIN AREAS_ALMACENAMIENTO A ON B.ID_AREA_ALMACENAMIENTO = A.ID_AREA";
 		System.out.println("SQL stmt:" + sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);

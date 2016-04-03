@@ -74,7 +74,7 @@ public class DAOOperadorPortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public void addTipoCarga(Buque buque, Integer idPuerto) throws SQLException, Exception{
+	public void addCargaTipoABuque(Buque buque) throws SQLException, Exception{
 		
 	}
 	
@@ -86,13 +86,12 @@ public class DAOOperadorPortuario {
 	 * @return
 	 * @throws SQLException, Exception 
 	 */
-	public void addFactura(Factura factura, Integer idPuerto) throws SQLException, Exception {
+	public void addFactura(Factura factura) throws SQLException, Exception {
 		String sql = "INSERT INTO FACTURAS VALUES (";
 		sql += factura.getId() + ",";
 		sql += "TO_DATE('" +factura.getFecha() + "','YYYY-MM-DD'),";
 		sql += factura.getExportador().getId() + ",";
-		sql += factura.getBuque().getId() + ",";
-		sql += idPuerto + ")";
+		sql += factura.getBuque().getId() + ")";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -141,12 +140,11 @@ public class DAOOperadorPortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA, Integer idPuerto)throws SQLException, Exception {
+	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, Integer idAA)throws SQLException, Exception {
 		buscarMercanciaAA(mercancia, idAA);
 		String sql = "INSERT INTO ENTREGA_MERCANCIA VALUES (";
 		sql += mercancia.getMercancia().getId() + ",";
 		sql += "TO_DATE('" + mercancia.getFecha() + "','YYYY-MM-DD'),";
-		sql += idPuerto + ",";
 		sql += idAA + ",'";
 		sql += "A_IMPORTADOR" + "')";
 		

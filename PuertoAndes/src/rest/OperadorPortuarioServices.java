@@ -46,10 +46,10 @@ public class OperadorPortuarioServices {
 	@Path("/entregaMercancia")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addEntregaMercanciaImportador(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA, @QueryParam("idPuerto")Integer idPuerto){
+	public Response addEntregaMercanciaImportador(EntregaMercancia mercancia, @QueryParam("idAA")Integer idAA){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		try {
-			tm.addEntregaMercanciaImportador(mercancia, idAA, idPuerto);
+			tm.addEntregaMercanciaImportador(mercancia, idAA);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -68,10 +68,10 @@ public class OperadorPortuarioServices {
 	@Path("/factura")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addFactura(Factura factura,@QueryParam("idPuerto") Integer idPuerto) {
+	public Response addFactura(Factura factura) {
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		try {
-			tm.addFactura(factura, idPuerto);
+			tm.addFactura(factura);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}

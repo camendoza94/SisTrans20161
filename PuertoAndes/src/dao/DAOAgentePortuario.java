@@ -67,9 +67,9 @@ public class DAOAgentePortuario {
 	}
 		
 	//RF5-1
-	private void buscarBuquePuerto(Buque buque, Integer idPuerto) throws SQLException, Exception{
-		String sql = "SELECT * FROM MUELLES WHERE ID_PUERTO =" + idPuerto;
-		sql += " AND ID_BUQUE =" + buque.getId();
+	private void buscarBuquePuerto(Buque buque) throws SQLException, Exception{
+		String sql = "SELECT * FROM MUELLES" ;
+		sql += " WHERE ID_BUQUE =" + buque.getId();
 
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
@@ -90,13 +90,12 @@ public class DAOAgentePortuario {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	public void addSalidaBuque(MovimientoBuque salidaBuque, Integer idPuerto) throws SQLException, Exception{
-		buscarBuquePuerto(salidaBuque.getBuque(), idPuerto);
+	public void addSalidaBuque(MovimientoBuque salidaBuque) throws SQLException, Exception{
+		buscarBuquePuerto(salidaBuque.getBuque());
 		String sql = "INSERT INTO MOVIMIENTO_BUQUES VALUES (TO_DATE('";
-		sql += salidaBuque.getFecha() + "','YYYY-MM-DD'),";
-		sql += idPuerto + ",";
-		sql += salidaBuque.getPuertoAnterior().getId() + ",";
-		sql += salidaBuque.getPuertoSiguiente().getId() + ",";
+		sql += salidaBuque.getFecha() + "','YYYY-MM-DD'),'";
+		sql += salidaBuque.getPuertoAnterior() + "','";
+		sql += salidaBuque.getPuertoSiguiente() + "',";
 		sql += salidaBuque.getBuque().getId() + ",'";
 		sql += "SALIDA" + "')";
 

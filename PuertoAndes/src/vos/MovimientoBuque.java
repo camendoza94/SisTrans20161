@@ -7,11 +7,11 @@ public class MovimientoBuque {
 		SALIDA, ARRIBO
 	}
 	private Date fecha;
-	private Puerto puertoAnterior;
-	private Puerto puertoSiguiente;	
+	private String puertoAnterior;
+	private String puertoSiguiente;	
 	private Buque buque;
 	private tipoMovimiento tipo;
-	public MovimientoBuque(Date fecha, Puerto puertoAnterior, Puerto puertoSiguiente, Buque buque,
+	public MovimientoBuque(Date fecha, String puertoAnterior, String puertoSiguiente, Buque buque,
 			tipoMovimiento tipo) {
 		super();
 		this.fecha = fecha;
@@ -35,16 +35,16 @@ public class MovimientoBuque {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	public Puerto getPuertoAnterior() {
+	public String getPuertoAnterior() {
 		return puertoAnterior;
 	}
-	public void setPuertoAnterior(Puerto puertoAnterior) {
+	public void setPuertoAnterior(String puertoAnterior) {
 		this.puertoAnterior = puertoAnterior;
 	}
-	public Puerto getPuertoSiguiente() {
+	public String getPuertoSiguiente() {
 		return puertoSiguiente;
 	}
-	public void setPuertoSiguiente(Puerto puertoSiguiente) {
+	public void setPuertoSiguiente(String puertoSiguiente) {
 		this.puertoSiguiente = puertoSiguiente;
 	}
 	public Buque getBuque() {

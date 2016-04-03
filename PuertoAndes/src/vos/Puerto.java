@@ -3,7 +3,6 @@ package vos;
 import java.util.ArrayList;
 
 public class Puerto {
-	private int id;
 	private String nombre;
 	private String pais;
 	private String ciudad;
@@ -19,12 +18,11 @@ public class Puerto {
 	public Puerto(){
 		
 	}
-	public Puerto(int id, String nombre, String pais, String ciudad, ArrayList<Usuario> usuarios,
+	public Puerto(String nombre, String pais, String ciudad, ArrayList<Usuario> usuarios,
 			ArrayList<Equipo> equipos, ArrayList<Camion> camiones, ArrayList<Muelle> muelles,
 			ArrayList<AreaAlmacenamiento> areasAlmacenamiento, ArrayList<MovimientoBuque> movimientos,
 			ArrayList<EntregaMercancia> entregas, ArrayList<Factura> facturas) {
 		super();
-		this.id = id;
 		this.nombre = nombre;
 		this.pais = pais;
 		this.ciudad = ciudad;
@@ -36,15 +34,6 @@ public class Puerto {
 		this.movimientos = movimientos;
 		this.entregas = entregas;
 		this.facturas = facturas;
-	}
-	public Puerto(int id) {
-		this.id = id;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int idPuerto) {
-		this.id = idPuerto;
 	}
 	public String getNombre() {
 		return nombre;
