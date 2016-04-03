@@ -154,7 +154,8 @@ public class DAOConsultas {
 			while(rs2.next()){
 				mercancias.add(new Mercancia(rs2.getInt("ID_MERCANCIA")));
 			}
-			AreaAlmacenamiento AA = new AreaAlmacenamiento(rs.getInt("ID_AREA"),rs.getBoolean("LLENO"), mercancias);
+			// TODO
+			AreaAlmacenamiento AA = new AreaAlmacenamiento(rs.getInt("ID_AREA"),rs.getBoolean("LLENO"), null, null, null, 0, mercancias);
 			areasMasUtilizadas.add(AA);
 		}
 		return areasMasUtilizadas;

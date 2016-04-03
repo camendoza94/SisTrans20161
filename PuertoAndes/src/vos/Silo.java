@@ -1,15 +1,15 @@
 package vos;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Silo extends AreaAlmacenamiento{
 	private String nombre;
-	private float capacidad;
 	
-	public Silo(int id, boolean lleno, ArrayList<Mercancia> mercancias, String nombre, float capacidad) {
-		super(id, lleno, mercancias);
+	public Silo(int id, boolean lleno, vos.Buque.tipoMercancia tipoMercancia, vos.AreaAlmacenamiento.estado estado,
+			Date fechaReserva, float capacidad, ArrayList<Mercancia> mercancias, String nombre) {
+		super(id, lleno, tipoMercancia, estado, fechaReserva, capacidad, mercancias);
 		this.nombre = nombre;
-		this.capacidad = capacidad;
 	}
 	public Silo(){
 		
@@ -19,11 +19,5 @@ public class Silo extends AreaAlmacenamiento{
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public float getCapacidad() {
-		return capacidad;
-	}
-	public void setCapacidad(float capacidad) {
-		this.capacidad = capacidad;
 	}
 }

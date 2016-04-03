@@ -1,15 +1,15 @@
 package vos;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Patio extends AreaAlmacenamiento{
 	private float dimension;
-	private String tipoCarga;
 	
-	public Patio(int id, boolean lleno, ArrayList<Mercancia> mercancias, float dimension, String tipoCarga) {
-		super(id, lleno, mercancias);
+	public Patio(int id, boolean lleno, vos.Buque.tipoMercancia tipoMercancia, vos.AreaAlmacenamiento.estado estado,
+			Date fechaReserva, float capacidad, ArrayList<Mercancia> mercancias, float dimension) {
+		super(id, lleno, tipoMercancia, estado, fechaReserva, capacidad, mercancias);
 		this.dimension = dimension;
-		this.tipoCarga = tipoCarga;
 	}
 	public Patio(){
 		
@@ -19,12 +19,6 @@ public class Patio extends AreaAlmacenamiento{
 	}
 	public void setDimension(float dimension) {
 		this.dimension = dimension;
-	}
-	public String getTipoCarga() {
-		return tipoCarga;
-	}
-	public void setTipoCarga(String tipoCarga) {
-		this.tipoCarga = tipoCarga;
 	}
 }
 

@@ -1,7 +1,8 @@
 package vos;
 
-import java.sql.Date;
 import java.util.ArrayList;
+
+import vos.AreaAlmacenamiento.estado;
 
 public class Buque {
 	public enum tipoBuque{
@@ -16,26 +17,27 @@ public class Buque {
 	private String nombreAgente;
 	private float capacidad;
 	private boolean lleno;
-	private tipoMercancia tipoCarga;
 	private String registroCapitania;
 	private String destino;
 	private String origen;
 	private tipoBuque tipo;
+	private estado estado;
 	private ArrayList<Mercancia> mercancias;
-	public Buque(int id, String nombre, String nombreAgente, float capacidad, boolean lleno, tipoMercancia tipoCarga,
-			Date fechaIngreso, Date fechaSalida, String registroCapitania, String destino, String origen,
-			tipoBuque tipo, ArrayList<Mercancia> mercancias) {
+
+	public Buque(int id, String nombre, String nombreAgente, float capacidad, boolean lleno, String registroCapitania,
+			String destino, String origen, tipoBuque tipo, vos.AreaAlmacenamiento.estado estado,
+			ArrayList<Mercancia> mercancias) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.nombreAgente = nombreAgente;
 		this.capacidad = capacidad;
 		this.lleno = lleno;
-		this.tipoCarga = tipoCarga;
 		this.registroCapitania = registroCapitania;
 		this.destino = destino;
 		this.origen = origen;
 		this.tipo = tipo;
+		this.estado = estado;
 		this.mercancias = mercancias;
 	}
 	public Buque(){
@@ -92,12 +94,6 @@ public class Buque {
 	public void setOrigen(String origen) {
 		this.origen = origen;
 	}
-	public tipoMercancia getTipoCarga() {
-		return tipoCarga;
-	}
-	public void setTipoCarga(tipoMercancia tipoCarga) {
-		this.tipoCarga = tipoCarga;
-	}
 	public tipoBuque getTipo() {
 		return tipo;
 	}
@@ -109,5 +105,11 @@ public class Buque {
 	}
 	public void setMercancias(ArrayList<Mercancia> mercancias) {
 		this.mercancias = mercancias;
+	}
+	public estado getEstado() {
+		return estado;
+	}
+	public void setEstado(estado estado) {
+		this.estado = estado;
 	}
 }

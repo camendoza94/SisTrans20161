@@ -1,6 +1,6 @@
 package vos;
 
-import java.sql.Date;
+import vos.Buque.tipoMercancia;
 
 public class Mercancia {
 	private enum claseMercancia{
@@ -8,22 +8,28 @@ public class Mercancia {
 	}
 	private Integer id;
 	private float precio;
-	private Date fecha;
 	private claseMercancia proposito;
-	private float cantidad;
+	private float volumen;
 	private Usuario propietario;
+	private String origen;
+	private String destino;
+	private tipoMercancia tipoMercancia;
+	private float peso;
 	public Mercancia(){
 		
 	}
-	public Mercancia(Integer id, float precio, Date fecha, claseMercancia proposito, float cantidad,
-			Usuario propietario) {
+	public Mercancia(Integer id, float precio, claseMercancia proposito, float volumen, Usuario propietario,
+			String origen, String destino, vos.Buque.tipoMercancia tipoMercancia, float peso) {
 		super();
 		this.id = id;
 		this.precio = precio;
-		this.fecha = fecha;
 		this.proposito = proposito;
-		this.cantidad = cantidad;
+		this.volumen = volumen;
 		this.propietario = propietario;
+		this.origen = origen;
+		this.destino = destino;
+		this.tipoMercancia = tipoMercancia;
+		this.peso = peso;
 	}
 	public Mercancia(Integer id) {
 		super();
@@ -41,12 +47,6 @@ public class Mercancia {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-	public Date getFecha() {
-		return fecha;
-	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
-	}
 	public claseMercancia getProposito() {
 		return proposito;
 	}
@@ -54,15 +54,45 @@ public class Mercancia {
 		this.proposito = proposito;
 	}
 	public float getCantidad() {
-		return cantidad;
+		return volumen;
 	}
 	public void setCantidad(float cantidad) {
-		this.cantidad = cantidad;
+		this.volumen = cantidad;
 	}
 	public Usuario getPropietario() {
 		return propietario;
 	}
 	public void setPropietario(Usuario propietario) {
 		this.propietario = propietario;
-	}	
+	}
+	public float getVolumen() {
+		return volumen;
+	}
+	public void setVolumen(float volumen) {
+		this.volumen = volumen;
+	}
+	public String getOrigen() {
+		return origen;
+	}
+	public void setOrigen(String origen) {
+		this.origen = origen;
+	}
+	public String getDestino() {
+		return destino;
+	}
+	public void setDestino(String destino) {
+		this.destino = destino;
+	}
+	public tipoMercancia getTipoMercancia() {
+		return tipoMercancia;
+	}
+	public void setTipoMercancia(tipoMercancia tipoMercancia) {
+		this.tipoMercancia = tipoMercancia;
+	}
+	public float getPeso() {
+		return peso;
+	}
+	public void setPeso(float peso) {
+		this.peso = peso;
+	}
 }

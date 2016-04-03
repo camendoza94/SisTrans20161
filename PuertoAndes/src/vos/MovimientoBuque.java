@@ -1,7 +1,6 @@
 package vos;
 
 import java.sql.Date;
-import java.sql.Time;
 
 public class MovimientoBuque {
 	public enum tipoMovimiento {

@@ -9,7 +9,7 @@ public class Usuario {
 		OPERADOR_PORTUARIO, AGENTE_PORTUARIO;
 	}
 	
-	private int id; //String?
+	private int id;
 	private String nombre;
 	private tipoPersona tipoPersona;
 	private tipoUsuario tipoUsuario;

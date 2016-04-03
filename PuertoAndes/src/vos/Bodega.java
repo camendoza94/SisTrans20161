@@ -1,5 +1,6 @@
 package vos;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class Bodega extends AreaAlmacenamiento {
@@ -9,9 +10,11 @@ public class Bodega extends AreaAlmacenamiento {
 	private boolean plataformaExt;
 	private float separacionColumna;
 	private ArrayList<CuartoFrio> cuartosFrios;
-	public Bodega(int id, boolean lleno, ArrayList<Mercancia> mercancias, float ancho, float largo,
+ 
+	public Bodega(int id, boolean lleno, vos.Buque.tipoMercancia tipoMercancia, vos.AreaAlmacenamiento.estado estado,
+			Date fechaReserva, float capacidad, ArrayList<Mercancia> mercancias, float ancho, float largo,
 			boolean plataformaExt, float separacionColumna, ArrayList<CuartoFrio> cuartosFrios) {
-		super(id, lleno, mercancias);
+		super(id, lleno, tipoMercancia, estado, fechaReserva, capacidad, mercancias);
 		this.ancho = ancho;
 		this.largo = largo;
 		this.plataformaExt = plataformaExt;
