@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Properties;
 
 import dao.*;
 import vos.*;
+import vos.AreaAlmacenamiento.estado;
 import vos.Buque.tipoMercancia;
 import vos.EntregaMercancia.tipoEntrega;
 
@@ -167,6 +169,7 @@ public class PuertoAndesMaster {
 			else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
 				int idBuque2 = daoMercancia.getBuqueMercancia(idMercancia);
 				daoMercancia.deleteMercanciaBuque(idMercancia, idBuque2);
+				//TODO INSERT en nueva tabla Buque a Buque
 			}
 			
 			daoMercancia.insertMercanciaBuque(idMercancia, idMercancia );
@@ -198,36 +201,6 @@ public class PuertoAndesMaster {
 		}		
 	}
 	
-	//RF9
-	public void addFactura(Factura factura) throws Exception{
-		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
-		try 
-		{
-			//////Transacción
-			this.conn = darConexion();
-			daoOperadorPortuario.setConn(conn);
-			daoOperadorPortuario.addFactura(factura);
-			conn.commit();
-		} catch (SQLException e) {
-			System.err.println("SQLException:" + e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e) {
-			System.err.println("GeneralException:" + e.getMessage());
-			e.printStackTrace();
-			throw e;
-		} finally {
-			try {
-				daoOperadorPortuario.cerrarRecursos();
-				if(this.conn!=null)
-					this.conn.close();
-			} catch (SQLException exception) {
-				System.err.println("SQLException closing resources:" + exception.getMessage());
-				exception.printStackTrace();
-				throw exception;
-			}
-		}		
-	}
 	
 	//RF8
 	public void addEntregaMercanciaImportador(EntregaMercancia mercancia, int idAA) throws Exception {
@@ -258,6 +231,77 @@ public class PuertoAndesMaster {
 				throw exception;
 			}
 		}
+	}
+	//RF9
+		public void addFactura(Factura factura) throws Exception{
+			DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
+			try 
+			{
+				//////Transacción
+				this.conn = darConexion();
+				daoOperadorPortuario.setConn(conn);
+				daoOperadorPortuario.addFactura(factura);
+				conn.commit();
+			} catch (SQLException e) {
+				System.err.println("SQLException:" + e.getMessage());
+				e.printStackTrace();
+				throw e;
+			} catch (Exception e) {
+				System.err.println("GeneralException:" + e.getMessage());
+				e.printStackTrace();
+				throw e;
+			} finally {
+				try {
+					daoOperadorPortuario.cerrarRecursos();
+					if(this.conn!=null)
+						this.conn.close();
+				} catch (SQLException exception) {
+					System.err.println("SQLException closing resources:" + exception.getMessage());
+					exception.printStackTrace();
+					throw exception;
+				}
+			}		
+		}
+	
+	//RF10
+	public Buque cargarBuque (int idBuque) throws SQLException, Exception{
+		DAOBuque daoBuque = new DAOBuque();
+		DAOMercancia daoMercancia = new DAOMercancia();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoBuque.setConn(conn);
+			daoMercancia.setConn(conn);
+			ResultSet rs = daoBuque.getBuque(idBuque);
+			if(rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) != 0){
+				throw new Exception("El barco no se encuentra disponible");
+			}
+			conn.setAutoCommit(false);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			conn.rollback();
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoBuque.cerrarRecursos();
+				daoMercancia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return null; //TODO	
 	}
 	//RFC1
 	public ArrayList<MovimientoBuque> consultarArribosSalidas(Date fechaIni, Date fechaFin, String nombreBuque,tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws Exception{
