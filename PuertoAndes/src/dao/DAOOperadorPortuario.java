@@ -26,7 +26,6 @@ import vos.Mercancia.claseMercancia;
  */
 public class DAOOperadorPortuario {
 
-
 	/**
 	 * Arraylits de recursos que se usan para la ejecución de sentencias SQL
 	 */
@@ -185,7 +184,7 @@ public class DAOOperadorPortuario {
 		buscarMercanciaAA(mercancia, idAA);
 		String sql = "INSERT INTO ENTREGA_MERCANCIA VALUES (";
 		sql += mercancia.getMercancia().getId() + ",";
-		sql += "TO_DATE('" + mercancia.getFecha() + "','YYYY-MM-DD'),";
+		sql += "TO_DATE('" + mercancia.getFechaOrden() + "','YYYY-MM-DD'),";
 		sql += idAA + ",'";
 		sql += "A_IMPORTADOR" + "')";
 		

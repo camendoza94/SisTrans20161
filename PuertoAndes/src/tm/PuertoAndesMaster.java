@@ -23,6 +23,7 @@ import java.util.Properties;
 import dao.*;
 import vos.*;
 import vos.Buque.tipoMercancia;
+import vos.EntregaMercancia.tipoEntrega;
 
 /**
  * Fachada en patron singleton de la aplicación
@@ -146,27 +147,47 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF6
-	public Object[] addCargaTipoABuque(int idMercancia, int idBuque) throws Exception{
-		DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
+	public void addCargaTipoABuque(EntregaMercancia entrega) throws Exception{
+		DAOBuque daoBuque = new DAOBuque();
+		DAOMercancia daoMercancia = new DAOMercancia();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
-			daoOperadorPortuario.setConn(conn);
-			Object[] carga = daoOperadorPortuario.addCargaTipoABuque(idMercancia, idBuque);;
+			daoBuque.setConn(conn);
+			daoMercancia.setConn(conn);
+			conn.setAutoCommit(false);
+			int idMercancia = entrega.getMercancia().getId();
+			int idBuque = entrega.getBuque().getId();
+			int idArea = -1;
+			if(entrega.getTipo().compareTo(tipoEntrega.DESDE_AREA_ALMACENAMIENTO) == 0){
+				idArea = daoMercancia.getAreaMercancia(idMercancia);
+				daoMercancia.deleteMercanciaArea(idMercancia, idArea);
+			}
+			else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
+				int idBuque2 = daoMercancia.getBuqueMercancia(idMercancia);
+				daoMercancia.deleteMercanciaBuque(idMercancia, idBuque2);
+			}
+			
+			daoMercancia.insertMercanciaBuque(idMercancia, idMercancia );
+			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
+			daoBuque.updateCapacidadBuque(idBuque, volumenMercancia);
+			daoMercancia.insertEntregaMercanciaBuque(entrega, idArea);
 			conn.commit();
-			return carga;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
+			conn.rollback();
 			e.printStackTrace();
 			throw e;
 		} catch (Exception e) {
 			System.err.println("GeneralException:" + e.getMessage());
 			e.printStackTrace();
+			conn.rollback();
 			throw e;
 		} finally {
 			try {
-				daoOperadorPortuario.cerrarRecursos();
+				daoBuque.cerrarRecursos();
+				daoMercancia.cerrarRecursos();
 				if(this.conn!=null)
 					this.conn.close();
 			} catch (SQLException exception) {

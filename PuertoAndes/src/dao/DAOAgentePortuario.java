@@ -20,7 +20,6 @@ import vos.*;
 
 /**
  * Clase DAO que se conecta la base de datos usando JDBC para resolver los requerimientos de la aplicación
- * @author Juan
  */
 public class DAOAgentePortuario {
 

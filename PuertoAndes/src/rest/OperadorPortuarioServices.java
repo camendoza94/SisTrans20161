@@ -41,22 +41,6 @@ public class OperadorPortuarioServices {
 		return "{ \"ERROR\": \""+ e.getMessage() + "\"}" ;
 	}
 	
-	//RF6
-	@POST
-	@Path("/cargaABuque")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response addCargaTipoABuque(@QueryParam("idMercancia") int idMercancia, @QueryParam("idBuque")int idBuque){
-		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
-		Object[] mercancia;
-		try {
-			mercancia = tm.addCargaTipoABuque(idMercancia, idBuque);
-		} catch (Exception e) {
-			return Response.status(500).entity(doErrorMessage(e)).build();
-		}
-		return Response.status(200).entity(mercancia).build();
-	}
-	
 	//RF8
 	@POST
 	@Path("/entregaMercancia")
