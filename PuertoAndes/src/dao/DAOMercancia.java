@@ -161,4 +161,39 @@ public class DAOMercancia {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();		
 	}
+	
+	//RF7
+	public void insertMercanciaAreaAlmacenamiento (int idMercancia, int idArea) throws SQLException
+	{
+		String sql = "INSERT INTO MERCANCIA_EN_ALMACENAMIENTO VALUES (";
+		sql += idMercancia + ",";
+		sql += idArea + ")";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
+	
+	public void insertEntregaMercanciaArea(EntregaMercancia entrega, int idBuque) throws SQLException{
+		String sql = "INSERT INTO ENTREGA_MERCANCIA VALUES (";
+		sql += entrega.getMercancia().getId() + ",";
+		sql += "TO_DATE('" + entrega.getFechaOrden() + "','YYYY-MM-DD'),";
+		if(idBuque == -1){
+			sql += "NULL,";
+		}
+		else {
+			sql += idBuque + ",'";
+		}
+		sql += entrega.getTipo() + "',";
+		sql += entrega.getArea().getId() + ",";
+		sql += "TO_DATE('" + entrega.getFechaRealizacion() + "','YYYY-MM-DD'))";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
 }

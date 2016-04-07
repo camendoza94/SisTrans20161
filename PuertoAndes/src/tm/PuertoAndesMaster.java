@@ -172,7 +172,7 @@ public class PuertoAndesMaster {
 				//TODO INSERT en nueva tabla Buque a Buque
 			}
 			
-			daoMercancia.insertMercanciaBuque(idMercancia, idMercancia );
+			daoMercancia.insertMercanciaBuque(idMercancia, idBuque );
 			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
 			daoBuque.updateCapacidadBuque(idBuque, volumenMercancia);
 			daoMercancia.insertEntregaMercanciaBuque(entrega, idArea);
@@ -190,6 +190,60 @@ public class PuertoAndesMaster {
 		} finally {
 			try {
 				daoBuque.cerrarRecursos();
+				daoMercancia.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}		
+	}
+	
+	//RF7
+	public void addCargaAlmacenamiento(EntregaMercancia entrega) throws Exception{
+		DAOAreaAlmacenamiento daoareaAlmacenamiento = new DAOAreaAlmacenamiento();
+		DAOMercancia daoMercancia = new DAOMercancia();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoareaAlmacenamiento.setConn(conn);
+			daoMercancia.setConn(conn);
+			conn.setAutoCommit(false);
+			int idMercancia = entrega.getMercancia().getId();
+			int idarea = entrega.getArea().getId();
+			int idBuque = -1;
+			if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
+				idBuque = daoMercancia.getBuqueMercancia(idMercancia);
+				daoMercancia.deleteMercanciaBuque(idMercancia, idBuque);;
+			}
+			else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_AREA_ALMACENAMIENTO) == 0){
+				int idArea2 = daoMercancia.getAreaMercancia(idMercancia);
+				daoMercancia.deleteMercanciaArea(idMercancia, idArea2);;
+				//TODO INSERT en nueva tabla almacenamiento a almacenamiento
+			}
+			
+			
+			daoMercancia.insertMercanciaAreaAlmacenamiento(idMercancia, idarea);
+			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
+			daoareaAlmacenamiento.updateCapacidadAreaAlmacenamiento(idarea, volumenMercancia);
+			daoMercancia.insertEntregaMercanciaArea(entrega, idBuque);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			conn.rollback();
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				daoareaAlmacenamiento.cerrarRecursos();
 				daoMercancia.cerrarRecursos();
 				if(this.conn!=null)
 					this.conn.close();
@@ -303,6 +357,51 @@ public class PuertoAndesMaster {
 		}
 		return null; //TODO	
 	}
+	
+	//RF11 
+	public AreaAlmacenamiento descargarBuque (int idArea) throws SQLException, Exception 
+	{
+		DAOMercancia DAOmercancia = new DAOMercancia();
+		DAOAreaAlmacenamiento DAOarea= new DAOAreaAlmacenamiento();
+		try{
+			//Transacción
+			this.conn= darConexion();
+			DAOmercancia.setConn(conn);
+			DAOarea.setConn(conn);
+			ResultSet rs = DAOarea.getArea(idArea);
+			if(rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) != 0){ 
+				throw new Exception("El area de almacenamiento no se encuentra disponible");
+			}
+			conn.setAutoCommit(false);
+			conn.commit();
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			conn.rollback();
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} finally {
+			try {
+				DAOmercancia.cerrarRecursos();
+				DAOarea.cerrarRecursos();
+				if(this.conn!=null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+		return null;
+		}
+		
+	
+	
+	
 	//RFC1
 	public ArrayList<MovimientoBuque> consultarArribosSalidas(Date fechaIni, Date fechaFin, String nombreBuque,tipoMercancia tipoMercancia, Time hora, String orderBy, String groupBy) throws Exception{
 		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
