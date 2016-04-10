@@ -211,59 +211,65 @@ public class PuertoAndesMaster {
 		}		
 	}
 	
+	
 	//RF7
-	public void addCargaAlmacenamiento(EntregaMercancia entrega) throws Exception{
-		DAOAreaAlmacenamiento daoareaAlmacenamiento = new DAOAreaAlmacenamiento();
-		DAOMercancia daoMercancia = new DAOMercancia();
-		try 
-		{
-			//////Transacción
-			this.conn = darConexion();
-			daoareaAlmacenamiento.setConn(conn);
-			daoMercancia.setConn(conn);
-			conn.setAutoCommit(false);
-			int idMercancia = entrega.getMercancia().getId();
-			int idarea = entrega.getArea().getId();
-			int idBuque = -1;
-			if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
-				idBuque = daoMercancia.getBuqueMercancia(idMercancia);
-				daoMercancia.deleteMercanciaBuque(idMercancia, idBuque);;
-			}
-			else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_AREA_ALMACENAMIENTO) == 0){
-				int idArea2 = daoMercancia.getAreaMercancia(idMercancia);
-				daoMercancia.deleteMercanciaArea(idMercancia, idArea2);;
-				//TODO INSERT en nueva tabla almacenamiento a almacenamiento
-			}
-			
-			
-			daoMercancia.insertMercanciaAreaAlmacenamiento(idMercancia, idarea);
-			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
-			daoareaAlmacenamiento.updateCapacidadAreaAlmacenamiento(idarea, volumenMercancia);
-			daoMercancia.insertEntregaMercanciaArea(entrega, idBuque);
-			conn.commit();
-		} catch (SQLException e) {
-			System.err.println("SQLException:" + e.getMessage());
-			conn.rollback();
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e) {
-			System.err.println("GeneralException:" + e.getMessage());
-			e.printStackTrace();
-			conn.rollback();
-			throw e;
-		} finally {
-			try {
-				daoareaAlmacenamiento.cerrarRecursos();
-				daoMercancia.cerrarRecursos();
-				if(this.conn!=null)
-					this.conn.close();
-			} catch (SQLException exception) {
-				System.err.println("SQLException closing resources:" + exception.getMessage());
-				exception.printStackTrace();
-				throw exception;
-			}
-		}		
-	}
+		public void addCargaAlmacenamiento(EntregaMercancia entrega) throws Exception{
+			DAOAreaAlmacenamiento daoareaAlmacenamiento = new DAOAreaAlmacenamiento();
+			DAOMercancia daoMercancia = new DAOMercancia();
+			try 
+			{
+				//////Transacción
+				this.conn = darConexion();
+				daoareaAlmacenamiento.setConn(conn);
+				daoMercancia.setConn(conn);
+				conn.setAutoCommit(false);
+				int idMercancia = entrega.getMercancia().getId();
+				int idarea = entrega.getArea().getId();
+				int idBuque = -1;
+				if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
+					idBuque = daoMercancia.getBuqueMercancia(idMercancia);
+					daoMercancia.deleteMercanciaBuque(idMercancia, idBuque);;
+				}
+				else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_AREA_ALMACENAMIENTO) == 0){
+					int idArea2 = daoMercancia.getAreaMercancia(idMercancia);
+					daoMercancia.deleteMercanciaArea(idMercancia, idArea2);;
+					//TODO INSERT en nueva tabla almacenamiento a almacenamiento
+				}
+				
+				
+				daoMercancia.insertMercanciaAreaAlmacenamiento(idMercancia, idarea);
+				float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
+				daoareaAlmacenamiento.updateCapacidadAreaAlmacenamiento(idarea, volumenMercancia);
+				daoMercancia.insertEntregaMercanciaArea(entrega, idBuque);
+				conn.commit();
+			} catch (SQLException e) {
+				System.err.println("SQLException:" + e.getMessage());
+				conn.rollback();
+				e.printStackTrace();
+				throw e;
+			} catch (Exception e) {
+				System.err.println("GeneralException:" + e.getMessage());
+				e.printStackTrace();
+				conn.rollback();
+				throw e;
+			} finally {
+				try {
+					daoareaAlmacenamiento.cerrarRecursos();
+					daoMercancia.cerrarRecursos();
+					if(this.conn!=null)
+						this.conn.close();
+				} catch (SQLException exception) {
+					System.err.println("SQLException closing resources:" + exception.getMessage());
+					exception.printStackTrace();
+					throw exception;
+				}
+			}		
+		}
+		
+	
+
+	
+	
 	
 	
 	//RF8
@@ -296,6 +302,7 @@ public class PuertoAndesMaster {
 			}
 		}
 	}
+	
 	//RF9
 		public void addFactura(Factura factura) throws Exception{
 			DAOOperadorPortuario daoOperadorPortuario = new DAOOperadorPortuario();
@@ -411,21 +418,55 @@ public class PuertoAndesMaster {
 	}
 	
 	//RF11 
-	public AreaAlmacenamiento descargarBuque (int idArea) throws SQLException, Exception 
+	public AreaAlmacenamiento descargarBuque (int idArea, int idBuque, Date fecha) throws SQLException, Exception 
 	{
-		DAOMercancia DAOmercancia = new DAOMercancia();
-		DAOAreaAlmacenamiento DAOarea= new DAOAreaAlmacenamiento();
-		try{
-			//Transacción
-			this.conn= darConexion();
-			DAOmercancia.setConn(conn);
-			DAOarea.setConn(conn);
-			ResultSet rs = DAOarea.getArea(idArea);
-			if(rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) != 0){ 
-				throw new Exception("El area de almacenamiento no se encuentra disponible");
-			}
+		DAOBuque daoBuque = new DAOBuque();
+		DAOMercancia daoMercancia = new DAOMercancia();
+		DAOAreaAlmacenamiento daoAlmacenamiento = new DAOAreaAlmacenamiento();
+		try 
+		{
+			//////Transacción
+			this.conn = darConexion();
+			daoBuque.setConn(conn);
+			daoMercancia.setConn(conn);
+			daoAlmacenamiento.setConn(conn);
 			conn.setAutoCommit(false);
+			ResultSet rs = daoBuque.getBuque(idBuque);
+			ResultSet rsA=daoAlmacenamiento.getArea(idArea);
+			AreaAlmacenamiento area= new AreaAlmacenamiento(idArea, rsA.getBoolean("LLENO"),  tipoMercancia.valueOf(rsA.getString("TIPO_MERCANCIA")), estado.valueOf(rsA.getString("ESTADO")), rsA.getDate("FECHA_RESERVA"), rsA.getFloat("CAPACIDAD"), null);
+			if(rs.getString("ESTADO").compareTo(estado.CARGADO.name()) == 0 ){
+				//TODO Check ResultSet is pointing to BeforeFirst
+				ResultSet rs2 = daoMercancia.getMercanciasDestino(rs.getString("DESTINO"));
+				
+				while(rs2.next()){
+					String tipoArea = rsA.getString("TIPO_MERCANCIA");
+					String tipoMercancia = rs2.getString("TIPO_CARGA");
+					if(tipoArea.compareTo(vos.Buque.tipoMercancia.RODADA.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.RODADA.name()) != 0){
+						throw new Exception("Esta area de almacenamiento no puede guardar una mercancia de este tipo");
+					}
+					else if(tipoArea.compareTo(vos.Buque.tipoMercancia.CONTENEDORES.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.CONTENEDORES.name()) != 0){
+						throw new Exception("Esta area de almacenamiento no puede guardar una mercancia de este tipo");
+					}
+					else if(tipoArea.compareTo(vos.Buque.tipoMercancia.GENERAL.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.GENERAL.name()) != 0){
+						throw new Exception("Esta area de almacenamiento no puede guardar una mercancia de este tipo");
+					}
+					else if(tipoArea.compareTo(vos.Buque.tipoMercancia.GRANEL_LIQUIDO.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.GRANEL_LIQUIDO.name()) != 0){
+						throw new Exception("Esta area de almacenamiento no puede guardar una mercancia de este tipo");
+					}
+					else if(tipoArea.compareTo(vos.Buque.tipoMercancia.GRANEL_SOLIDO.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.GRANEL_SOLIDO.name()) != 0){
+						throw new Exception("Esta area de almacenamiento no puede guardar una mercancia de este tipo");
+					}
+					else {
+						if( rsA.getString("ESTADO_RESERVA").compareTo(estado.DISPONIBLE.name())!=0){
+							throw new Exception("El area de almacenamiento no está disponible en el momento para movimientos de carga");
+						}
+					}
+					daoAlmacenamiento.descargarBuque(idBuque, idArea, fecha);
+					
+				}
+			}
 			conn.commit();
+			return area;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			conn.rollback();
@@ -438,8 +479,8 @@ public class PuertoAndesMaster {
 			throw e;
 		} finally {
 			try {
-				DAOmercancia.cerrarRecursos();
-				DAOarea.cerrarRecursos();
+				daoBuque.cerrarRecursos();
+				daoMercancia.cerrarRecursos();
 				if(this.conn!=null)
 					this.conn.close();
 			} catch (SQLException exception) {
@@ -448,7 +489,6 @@ public class PuertoAndesMaster {
 				throw exception;
 			}
 		}
-		return null;
 		}
 		
 	

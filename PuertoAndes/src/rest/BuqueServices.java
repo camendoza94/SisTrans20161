@@ -1,6 +1,7 @@
 package rest;
 
 import javax.servlet.ServletContext;
+
 import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -48,6 +49,25 @@ public class BuqueServices {
 		}
 		return Response.status(200).entity(entrega).build();
 	}
+	
+	//RF7
+		@POST
+		@Path("/cargaArea")
+		@Consumes(MediaType.APPLICATION_JSON)
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response addCargaAreaAlmacenamiento(EntregaMercancia entrega)
+		{
+			PuertoAndesMaster tm= new PuertoAndesMaster(getPath());
+			try{
+				tm.addCargaAlmacenamiento(entrega);
+		}
+			catch(Exception e)
+			{
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(entrega).build();
+		}
+	
 	
 	//RF10
 	@POST

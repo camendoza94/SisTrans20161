@@ -118,37 +118,7 @@ public class DAOOperadorPortuario {
 		return respuesta;
 	}
 	
-	//RF7
-	/**
-	 * 
-	 * @param area
-	 * @param idPuerto
-	 * @throws SQLException
-	 * @throws Exception
-	 */
-	public Object[] addCargaAlmacenamiento(int idMercancia, int idArea) throws SQLException {
-		Object[] respuesta = infoMercanciaBuque(idMercancia, idArea);
-		String sql = "INSERT INTO MERCANCIA_EN_ALMACENAMIENTO VALUES (";
-		sql += idMercancia + ",";
-		sql += idArea + "')";
-
-		System.out.println("SQL stmt:" + sql);
-
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
-		recursos.add(prepStmt);
-		prepStmt.executeQuery();
 		
-		String sql2 = "UPDATE AREAS_ALMACENAMIENTO SET CAPACIDAD=CAPACIDAD-"+ ((Mercancia) respuesta[1]).getVolumen();
-		sql2 += " WHERE ID_AREA = " + idArea;
-		System.out.println("SQL stmt:" + sql2);
-
-		PreparedStatement prepStmt2 = conn.prepareStatement(sql2);
-		recursos.add(prepStmt2);
-		prepStmt2.executeQuery();
-		return respuesta;
-	}
-	
-	
 	
 	//RF9
 	/**

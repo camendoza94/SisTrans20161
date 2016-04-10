@@ -8,7 +8,7 @@ import vos.Buque.tipoMercancia;
 public class AreaAlmacenamiento {
 	
 	public enum estado {
-		DISPONIBLE, RESERVA, EN_PROCESO_DE_CARGA;
+		DISPONIBLE, RESERVA, EN_PROCESO_DE_CARGA,DESHABILITADO,CARGADO,EN_PROCESO_DE_DESCARGUE,RAZONES_LEGALES;
 	}
 	
 	private int id;
@@ -19,7 +19,7 @@ public class AreaAlmacenamiento {
 	private float capacidad;
 	private ArrayList<Mercancia> mercancias;
 	
-	public AreaAlmacenamiento(int id, boolean lleno, tipoMercancia tipoMercancia, estado estado, Date fechaReserva, float capacidad, ArrayList<Mercancia> mercancias) {
+	public AreaAlmacenamiento(int id, boolean lleno, vos.Buque.tipoMercancia tipoMercancia, vos.AreaAlmacenamiento.estado estado, Date fechaReserva, float capacidad, ArrayList<Mercancia> mercancias) {
 		super();
 		this.id = id;
 		this.lleno = lleno;
