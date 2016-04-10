@@ -26,6 +26,7 @@ import java.util.Properties;
 import dao.*;
 import vos.*;
 import vos.AreaAlmacenamiento.estado;
+import vos.Buque.tipoBuque;
 import vos.Buque.tipoMercancia;
 import vos.EntregaMercancia.tipoEntrega;
 import vos.Usuario.tipoPersona;
@@ -338,7 +339,9 @@ public class PuertoAndesMaster {
 			daoBuque.setConn(conn);
 			daoMercancia.setConn(conn);
 			daoAlmacenamiento.setConn(conn);
+			conn.setAutoCommit(false);
 			ResultSet rs = daoBuque.getBuque(idBuque);
+			Buque buque = new Buque(idBuque, rs.getString("NOMBRE"), rs.getString("NOMBRE_AGENTE"), rs.getFloat("CAPACIDAD"), rs.getBoolean("LLENO"), rs.getString("RGISTRO_CAPITANIA"), rs.getString("DESTINO"), rs.getString("ORIGEN"), tipoBuque.valueOf(rs.getString("TIPO")), estado.valueOf(rs.getString("ESTADO")), null);
 			if(rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) == 0){
 				//TODO Check ResultSet is pointing to BeforeFirst
 				ResultSet rs2 = daoMercancia.getMercanciasDestino(rs.getString("DESTINO"));
@@ -381,8 +384,8 @@ public class PuertoAndesMaster {
 			} else {
 				throw new Exception("El barco no se encuentra disponible");
 			}
-			conn.setAutoCommit(false);
 			conn.commit();
+			return buque;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			conn.rollback();
@@ -405,7 +408,6 @@ public class PuertoAndesMaster {
 				throw exception;
 			}
 		}
-		return null; //TODO	
 	}
 	
 	//RF11 
