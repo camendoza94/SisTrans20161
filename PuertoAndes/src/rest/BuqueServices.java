@@ -52,7 +52,7 @@ public class BuqueServices {
 	
 	//RF7
 		@POST
-		@Path("/cargaArea")
+		@Path("/descarga")
 		@Consumes(MediaType.APPLICATION_JSON)
 		@Produces(MediaType.APPLICATION_JSON)
 		public Response addCargaAreaAlmacenamiento(EntregaMercancia entrega)

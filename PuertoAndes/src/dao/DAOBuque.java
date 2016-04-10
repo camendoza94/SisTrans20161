@@ -61,7 +61,7 @@ public class DAOBuque {
 	 * @param volumenMercancia
 	 * @throws SQLException
 	 */
-	public void updateCapacidadBuque(int idBuque, float volumenMercancia) throws SQLException{
+	public void updateCapacidad(int idBuque, float volumenMercancia) throws SQLException{
 		String sql = "UPDATE BUQUES SET CAPACIDAD=CAPACIDAD-"+ volumenMercancia;
 		sql += " WHERE ID_BUQUE = " + idBuque;
 

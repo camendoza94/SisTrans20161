@@ -67,6 +67,16 @@ public class DAOAreaAlmacenamiento {
 		
 	}
 	
+	public void updateCapacidad(int idArea, float volumenMercancia) throws SQLException{
+		String sql = "UPDATE AREAS_ALMACENAMIENTO SET CAPACIDAD=CAPACIDAD+"+ volumenMercancia;
+		sql += " WHERE ID_AREA = " + idArea;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		prepStmt.executeQuery();
+	}
 	//RF7
 		/**
 		 * 

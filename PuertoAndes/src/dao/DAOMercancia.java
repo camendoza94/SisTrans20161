@@ -118,12 +118,7 @@ public class DAOMercancia {
 		String sql = "INSERT INTO ENTREGA_MERCANCIA VALUES (";
 		sql += entrega.getMercancia().getId() + ",";
 		sql += "TO_DATE('" + entrega.getFechaOrden() + "','YYYY-MM-DD'),";
-		if(idArea == -1){
-			sql += "NULL,";
-		}
-		else {
-			sql += idArea + ",'";
-		}
+		sql += idArea + ",'";
 		sql += entrega.getTipo() + "',";
 		sql += entrega.getBuque().getId() + ",";
 		sql += "TO_DATE('" + entrega.getFechaRealizacion() + "','YYYY-MM-DD'))";

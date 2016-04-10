@@ -156,20 +156,23 @@ public class PuertoAndesMaster {
 	public void addCargaTipoABuque(EntregaMercancia entrega) throws Exception{
 		DAOBuque daoBuque = new DAOBuque();
 		DAOMercancia daoMercancia = new DAOMercancia();
+		DAOAreaAlmacenamiento daoAreaAlmacenamiento = new DAOAreaAlmacenamiento();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoBuque.setConn(conn);
 			daoMercancia.setConn(conn);
+			daoAreaAlmacenamiento.setConn(conn);
 			conn.setAutoCommit(false);
 			int idMercancia = entrega.getMercancia().getId();
 			int idBuque = entrega.getBuque().getId();
 			int idArea = -1;
+			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
 			if(entrega.getTipo().compareTo(tipoEntrega.DESDE_AREA_ALMACENAMIENTO) == 0){
 				idArea = daoMercancia.getAreaMercancia(idMercancia);
 				daoMercancia.deleteMercanciaArea(idMercancia, idArea);
-				//TODO Actualizar capacidad areaAlmacenamiento
+				daoAreaAlmacenamiento.updateCapacidad(idArea, volumenMercancia);
 			}
 			else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
 				int idBuque2 = daoMercancia.getBuqueMercancia(idMercancia);
@@ -178,8 +181,7 @@ public class PuertoAndesMaster {
 			}
 			
 			daoMercancia.insertMercanciaBuque(idMercancia, idBuque );
-			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
-			daoBuque.updateCapacidadBuque(idBuque, volumenMercancia);
+			daoBuque.updateCapacidad(idBuque, volumenMercancia);
 			if(idArea != -1){
 				daoMercancia.insertEntregaMercanciaBuque(entrega, idArea);
 			} else {
@@ -380,7 +382,7 @@ public class PuertoAndesMaster {
 				rs2.beforeFirst();
 				while(rs2.next()){
 					Date hoy = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
-					EntregaMercancia entrega = new EntregaMercancia(new Mercancia(rs2.getInt("ID_MERCANCIA")), hoy, hoy, tipoEntrega.DESDE_AREA_ALMACENAMIENTO , new AreaAlmacenamiento(rs2.getInt("ID_AREA")), new Buque(idBuque));
+					EntregaMercancia entrega = new EntregaMercancia(new Mercancia(rs2.getInt("ID_MERCANCIA")), hoy, hoy, tipoEntrega.DESDE_AREA_ALMACENAMIENTO , new AreaAlmacenamiento(rs2.getInt("ID_AREA")), null, new Buque(idBuque));
 					addCargaTipoABuque(entrega);
 				}
 				rs2.beforeFirst();
