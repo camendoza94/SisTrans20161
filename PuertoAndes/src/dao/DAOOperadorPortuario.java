@@ -247,7 +247,7 @@ public class DAOOperadorPortuario {
 	}
 	
 	//RF10
-	public void cargarBuque(Integer idBuque) throws SQLException, Exception{
+	public void cargarBuque(int idBuque) throws SQLException, Exception{
 		String destinoBuque = "";
 		String sql = "SELECT * FROM BUQUES WHERE ID_BUQUE =" + idBuque;
 		PreparedStatement prepStmt = conn.prepareStatement(sql);

@@ -13,12 +13,14 @@ package tm;
 import java.io.File;
 import java.io.FileInputStream;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 import dao.*;
@@ -26,6 +28,7 @@ import vos.*;
 import vos.AreaAlmacenamiento.estado;
 import vos.Buque.tipoMercancia;
 import vos.EntregaMercancia.tipoEntrega;
+import vos.Usuario.tipoPersona;
 
 /**
  * Fachada en patron singleton de la aplicación
@@ -165,17 +168,23 @@ public class PuertoAndesMaster {
 			if(entrega.getTipo().compareTo(tipoEntrega.DESDE_AREA_ALMACENAMIENTO) == 0){
 				idArea = daoMercancia.getAreaMercancia(idMercancia);
 				daoMercancia.deleteMercanciaArea(idMercancia, idArea);
+				//TODO Actualizar capacidad areaAlmacenamiento
 			}
 			else if(entrega.getTipo().compareTo(tipoEntrega.DESDE_BUQUE) == 0){
 				int idBuque2 = daoMercancia.getBuqueMercancia(idMercancia);
 				daoMercancia.deleteMercanciaBuque(idMercancia, idBuque2);
-				//TODO INSERT en nueva tabla Buque a Buque
+				//TODO Actualizar capacidadBuque2
 			}
 			
 			daoMercancia.insertMercanciaBuque(idMercancia, idBuque );
 			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
 			daoBuque.updateCapacidadBuque(idBuque, volumenMercancia);
-			daoMercancia.insertEntregaMercanciaBuque(entrega, idArea);
+			if(idArea != -1){
+				daoMercancia.insertEntregaMercanciaBuque(entrega, idArea);
+			} else {
+				//TODO INSERT en nueva tabla Buque a Buque
+			}
+			
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
@@ -321,14 +330,55 @@ public class PuertoAndesMaster {
 	public Buque cargarBuque (int idBuque) throws SQLException, Exception{
 		DAOBuque daoBuque = new DAOBuque();
 		DAOMercancia daoMercancia = new DAOMercancia();
+		DAOAreaAlmacenamiento daoAlmacenamiento = new DAOAreaAlmacenamiento();
 		try 
 		{
 			//////Transacción
 			this.conn = darConexion();
 			daoBuque.setConn(conn);
 			daoMercancia.setConn(conn);
+			daoAlmacenamiento.setConn(conn);
 			ResultSet rs = daoBuque.getBuque(idBuque);
-			if(rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) != 0){
+			if(rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) == 0){
+				//TODO Check ResultSet is pointing to BeforeFirst
+				ResultSet rs2 = daoMercancia.getMercanciasDestino(rs.getString("DESTINO"));
+				int cantidad = 0;
+				while(rs2.next()){
+					String tipoBuque = rs.getString("TIPO_BUQUE");
+					String tipoMercancia = rs2.getString("TIPO_CARGA");
+					if(tipoBuque.compareTo(vos.Buque.tipoBuque.RORO.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.RODADA.name()) != 0){
+						throw new Exception("Este buque no puede llevar una mercancia de este tipo");
+					}
+					else if(tipoBuque.compareTo(vos.Buque.tipoBuque.PORTACONTENEDORES.name()) == 0 && tipoMercancia.compareTo(vos.Buque.tipoMercancia.CONTENEDORES.name()) != 0){
+						throw new Exception("Este buque no puede llevar una mercancia de este tipo");
+					}
+					else {
+						if(rs2.getString("ESTADO").compareTo("DISPONIBLE") != 0){
+							throw new Exception("El area de almacenamiento no está disponible en el momento para movimientos de carga");
+						}
+					}
+					cantidad += rs2.getFloat("VOLUMEN");
+				}
+				if(cantidad > rs.getFloat("CAPACIDAD")){
+					throw new Exception("El buque no tiene la capacidad suficiente");
+				}
+				rs2.beforeFirst();
+				while(rs2.next()){
+					daoAlmacenamiento.updateEstado(rs2.getInt("ID_AREA"), estado.EN_PROCESO_DE_CARGA);
+				}
+				daoBuque.updateEstado(idBuque, estado.EN_PROCESO_DE_CARGA);
+				rs2.beforeFirst();
+				while(rs2.next()){
+					Date hoy = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+					EntregaMercancia entrega = new EntregaMercancia(new Mercancia(rs2.getInt("ID_MERCANCIA")), hoy, hoy, tipoEntrega.DESDE_AREA_ALMACENAMIENTO , new AreaAlmacenamiento(rs2.getInt("ID_AREA")), new Buque(idBuque));
+					addCargaTipoABuque(entrega);
+				}
+				rs2.beforeFirst();
+				while(rs2.next()){
+					daoAlmacenamiento.updateEstado(rs2.getInt("ID_AREA"), estado.DISPONIBLE);
+				}
+				daoBuque.updateEstado(idBuque, estado.DISPONIBLE);
+			} else {
 				throw new Exception("El barco no se encuentra disponible");
 			}
 			conn.setAutoCommit(false);

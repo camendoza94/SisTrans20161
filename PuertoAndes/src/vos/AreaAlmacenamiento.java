@@ -1,6 +1,6 @@
 package vos;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 
 import vos.Buque.tipoMercancia;
@@ -31,6 +31,9 @@ public class AreaAlmacenamiento {
 	}
 	public AreaAlmacenamiento() {
 		
+	}
+	public AreaAlmacenamiento(int id) {
+		this.id = id;
 	}
 	public int getId() {
 		return id;

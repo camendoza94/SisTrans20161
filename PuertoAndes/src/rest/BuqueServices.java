@@ -44,6 +44,6 @@ public class BuqueServices {
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-		return Response.status(200).entity(entrega).build(); //Crear Converter?
+		return Response.status(200).entity(entrega).build();
 	}
 }
