@@ -59,7 +59,7 @@ public class BuqueServices {
 		{
 			PuertoAndesMaster tm= new PuertoAndesMaster(getPath());
 			try{
-				tm.addCargaAlmacenamiento(entrega);
+				tm.addCargaTipoAArea(entrega);
 		}
 			catch(Exception e)
 			{

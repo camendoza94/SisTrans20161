@@ -119,9 +119,10 @@ public class DAOMercancia {
 		sql += entrega.getMercancia().getId() + ",";
 		sql += "TO_DATE('" + entrega.getFechaOrden() + "','YYYY-MM-DD'),";
 		sql += idArea + ",'";
-		sql += entrega.getTipo() + "',";
+		sql += entrega.getTipo().name() + "',";
 		sql += entrega.getBuque().getId() + ",";
-		sql += "TO_DATE('" + entrega.getFechaRealizacion() + "','YYYY-MM-DD'))";
+		sql += "TO_DATE('" + entrega.getFechaRealizacion() + "','YYYY-MM-DD'),";
+		sql += "NULL)";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -171,19 +172,16 @@ public class DAOMercancia {
 		prepStmt.executeQuery();
 	}
 	
+	//RF7
 	public void insertEntregaMercanciaArea(EntregaMercancia entrega, int idBuque) throws SQLException{
 		String sql = "INSERT INTO ENTREGA_MERCANCIA VALUES (";
 		sql += entrega.getMercancia().getId() + ",";
 		sql += "TO_DATE('" + entrega.getFechaOrden() + "','YYYY-MM-DD'),";
-		if(idBuque == -1){
-			sql += "NULL,";
-		}
-		else {
-			sql += idBuque + ",'";
-		}
-		sql += entrega.getTipo() + "',";
 		sql += entrega.getArea().getId() + ",";
-		sql += "TO_DATE('" + entrega.getFechaRealizacion() + "','YYYY-MM-DD'))";
+		sql += entrega.getTipo().name() + "',";
+		sql += idBuque + ",";
+		sql += "TO_DATE('" + entrega.getFechaRealizacion() + "','YYYY-MM-DD'),";
+		sql += "NULL)";
 
 		System.out.println("SQL stmt:" + sql);
 
@@ -195,6 +193,38 @@ public class DAOMercancia {
 	//RF10
 	public ResultSet getMercanciasDestino(String destinoBuque) throws SQLException{
 		String sql = "SELECT * FROM (MERCANCIA_EN_ALMACENAMENTO A JOIN MERCANCIAS B ON A.ID_MERCANCIA = B.ID_MERCANCIA) C JOIN AREAS_ALMACENAMIENTO D ON C.ID_AREA_ALMACENAMIENTO = D.ID_AREA WHERE DESTINO='" + destinoBuque + "'";
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		if(rs.next()){
+			return rs;
+		} else {
+			return null;
+		}
+	}
+	
+	//RF11
+	public ResultSet getMercanciasBuqueDescarga(int idBuque, String destino) throws SQLException{
+		String sql = "SELECT * FROM MERCANCIA_EN_BUQUE A JOIN MERCANCIAS B ON A.ID_MERCANCIA = B.ID_MERCANCIA WHERE DESTINO='" + destino + "' AND ID_BUQUE=" + idBuque;
+
+		System.out.println("SQL stmt:" + sql);
+
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		if(rs.next()){
+			return rs;
+		} else {
+			return null;
+		}
+	}
+	
+	//RF12
+	public ResultSet getDestinosMercanciaBuque(int idBuque) throws SQLException{
+		String sql = "SELECT DISTINCT DESTINO FROM MERCANCIA_EN_BUQUE A JOIN MERCANCIAS B ON A.ID_MERCANCIA = B.ID_MERCANCIA WHERE ID_BUQUE=" + idBuque;
 
 		System.out.println("SQL stmt:" + sql);
 

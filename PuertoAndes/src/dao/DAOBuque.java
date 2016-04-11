@@ -93,6 +93,17 @@ public class DAOBuque {
 		recursos.add(prepStmt);
 		prepStmt.executeQuery();
 	}
+	
+	public ResultSet getBuquesConDestino(String destino) throws SQLException{
+		String sql = "SELECT * FROM BUQUES WHERE DESTINO ='" + destino + "'";
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		if(rs.next()){
+			return rs;
+		}
+		return null;
+	}
 }
 		
 		
