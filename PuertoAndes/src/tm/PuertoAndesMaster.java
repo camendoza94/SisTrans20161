@@ -21,7 +21,7 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Properties;
 
 import dao.*;
@@ -323,7 +323,7 @@ public class PuertoAndesMaster {
 			conn.setAutoCommit(false);
 			ResultSet rs = daoBuque.getBuque(idBuque);
 			Buque buque = new Buque(idBuque, rs.getString("NOMBRE"), rs.getString("NOMBRE_AGENTE"),
-					rs.getFloat("CAPACIDAD"), rs.getBoolean("LLENO"), rs.getString("RGISTRO_CAPITANIA"),
+					rs.getFloat("CAPACIDAD"), rs.getBoolean("LLENO"), rs.getString("ERGISTRO_CAPITANIA"),
 					rs.getString("DESTINO"), rs.getString("ORIGEN"), tipoBuque.valueOf(rs.getString("TIPO")),
 					estado.valueOf(rs.getString("ESTADO")), null);
 			if (rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) == 0) {
@@ -357,7 +357,7 @@ public class PuertoAndesMaster {
 				daoBuque.updateEstado(idBuque, estado.EN_PROCESO_DE_CARGA);
 				rs2.beforeFirst();
 				while (rs2.next()) {
-					Date hoy = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+					Date hoy = new java.sql.Date(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)).getTime());
 					EntregaMercancia entrega = new EntregaMercancia(new Mercancia(rs2.getInt("ID_MERCANCIA")), hoy, hoy,
 							tipoEntrega.DESDE_AREA_ALMACENAMIENTO, new AreaAlmacenamiento(rs2.getInt("ID_AREA")), null,
 							new Buque(idBuque));
@@ -411,7 +411,7 @@ public class PuertoAndesMaster {
 			conn.setAutoCommit(false);
 			ResultSet rs = daoMercancia.getMercanciasBuqueDescarga(idBuque, destino);
 			int idArea = -1;
-			Date hoy = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+			Date hoy = new java.sql.Date(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)).getTime());
 			if (rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) == 0) {
 				// TODO Check ResultSet is pointing to BeforeFirst
 				ResultSet rs2 = daoAlmacenamiento.getAreasDisponibles();
@@ -503,7 +503,7 @@ public class PuertoAndesMaster {
 	}
 
 	// RF12
-	public void deshabilitarBuque(int idBuque, String tipo) throws Exception {
+	public Buque deshabilitarBuque(int idBuque, String tipo) throws Exception {
 		DAOBuque daoBuque = new DAOBuque();
 		DAOMercancia daoMercancia = new DAOMercancia();
 		Savepoint descarga = null;
@@ -515,6 +515,11 @@ public class PuertoAndesMaster {
 			daoBuque.setConn(conn);
 			daoMercancia.setConn(conn);
 			conn.setAutoCommit(false);
+			ResultSet rsRes = daoBuque.getBuque(idBuque);
+			Buque buque = new Buque(idBuque, rsRes.getString("NOMBRE"), rsRes.getString("NOMBRE_AGENTE"),
+					rsRes.getFloat("CAPACIDAD"), rsRes.getBoolean("LLENO"), rsRes.getString("REGISTRO_CAPITANIA"),
+					rsRes.getString("DESTINO"), rsRes.getString("ORIGEN"), tipoBuque.valueOf(rsRes.getString("TIPO")),
+					estado.valueOf(rsRes.getString("ESTADO")), null);
 			if(tipo.compareTo("RAZONES_LEGALES") != 0){
 				ResultSet rs = daoMercancia.getDestinosMercanciaBuque(idBuque);
 				while(rs.next()){
@@ -549,6 +554,7 @@ public class PuertoAndesMaster {
 			}
 			daoBuque.updateEstado(idBuque, estado.DESHABILITADO);
 			conn.commit();
+			return buque;
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();

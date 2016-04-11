@@ -1,6 +1,6 @@
 package rest;
 
-import java.util.Date;
+import java.sql.Date;
 
 import java.sql.Time;
 import java.util.ArrayList;

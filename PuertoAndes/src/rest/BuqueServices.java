@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import tm.PuertoAndesMaster;
+import vos.AreaAlmacenamiento;
 import vos.Buque;
 import vos.EntregaMercancia;
 
@@ -50,34 +51,63 @@ public class BuqueServices {
 		return Response.status(200).entity(entrega).build();
 	}
 	
-	//RF7
-		@POST
-		@Path("/descarga")
-		@Consumes(MediaType.APPLICATION_JSON)
-		@Produces(MediaType.APPLICATION_JSON)
-		public Response addCargaAreaAlmacenamiento(EntregaMercancia entrega)
-		{
-			PuertoAndesMaster tm= new PuertoAndesMaster(getPath());
-			try{
-				tm.addCargaTipoAArea(entrega);
+	// RF7
+	@POST
+	@Path("/descarga")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response addCargaAreaAlmacenamiento(EntregaMercancia entrega) {
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		try {
+			tm.addCargaTipoAArea(entrega);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
-			catch(Exception e)
-			{
-				return Response.status(500).entity(doErrorMessage(e)).build();
-			}
-			return Response.status(200).entity(entrega).build();
-		}
-	
+		return Response.status(200).entity(entrega).build();
+	}
 	
 	//RF10
 	@POST
-	@Path("/carga/{idBuque}")
+	@Path("/carga/{idBuque: \\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response cargarBuque(@PathParam("idBuque") int idBuque){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		Buque buque = new Buque();
 		try {
 			buque = tm.cargarBuque(idBuque);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(buque).build();
+	}
+	
+	//RF11
+	@POST
+	@Path("/descarga/{idBuque: \\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response descargarBuque(@PathParam("idBuque") int idBuque, String destino){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		AreaAlmacenamiento area = new AreaAlmacenamiento();
+		try {
+			area = tm.descargarBuque(idBuque, destino);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(area).build();
+	}
+	
+	//RF12
+	@POST
+	@Path("/deshabilitar/{idBuque: \\d+}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deshabilitarrBuque(@PathParam("idBuque") int idBuque, String tipo){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		Buque buque = new Buque();
+		try {
+			buque = tm.deshabilitarBuque(idBuque, tipo);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
