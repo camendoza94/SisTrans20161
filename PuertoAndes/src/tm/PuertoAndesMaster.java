@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Time;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -505,6 +506,8 @@ public class PuertoAndesMaster {
 	public void deshabilitarBuque(int idBuque, String tipo) throws Exception {
 		DAOBuque daoBuque = new DAOBuque();
 		DAOMercancia daoMercancia = new DAOMercancia();
+		Savepoint descarga = null;
+		Savepoint carga = null;
 		try 
 		{
 			//////Transacción
@@ -521,6 +524,7 @@ public class PuertoAndesMaster {
 						System.out.println("No se lograron descargar las mercancias con destino " + rs.getString("DESTINO"));
 					}
 				}
+				descarga = conn.setSavepoint("Descarga");
 				rs.beforeFirst();
 				while(rs.next()){
 					boolean ok = false;
@@ -537,17 +541,24 @@ public class PuertoAndesMaster {
 							}
 						}
 						if(ok == false){
-							System.out.println("No se lograron acomodar las cargas en buques con destino " + destino);
+							System.out.println("No se lograron acomodar las mercancias en buques con destino " + destino);
 						}
 					}
 				}
+				carga = conn.setSavepoint("Carga");
 			}
 			daoBuque.updateEstado(idBuque, estado.DESHABILITADO);
 			conn.commit();
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
-			conn.rollback();
+			if(carga != null){
+				conn.rollback(carga);
+			} else if(descarga != null){
+				conn.rollback(descarga);
+			} else {
+				conn.rollback();
+			}
 			throw e;
 		} catch (Exception e) {
 			System.err.println("GeneralException:" + e.getMessage());
