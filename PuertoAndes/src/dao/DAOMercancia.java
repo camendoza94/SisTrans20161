@@ -192,14 +192,15 @@ public class DAOMercancia {
 	
 	//RF10
 	public ResultSet getMercanciasDestino(String destinoBuque) throws SQLException{
-		String sql = "SELECT * FROM (MERCANCIA_EN_ALMACENAMENTO A JOIN MERCANCIAS B ON A.ID_MERCANCIA = B.ID_MERCANCIA) C JOIN AREAS_ALMACENAMIENTO D ON C.ID_AREA_ALMACENAMIENTO = D.ID_AREA WHERE DESTINO='" + destinoBuque + "'";
+		String sql = "SELECT * FROM (MERCANCIA_EN_ALMACENAMIENTO A JOIN MERCANCIAS B ON A.ID_MERCANCIA = B.ID_MERCANCIA JOIN AREAS_ALMACENAMIENTO D ON A.ID_AREA_ALMACENAMIENTO = D.ID_AREA) WHERE DESTINO='" + destinoBuque + "'";
 
 		System.out.println("SQL stmt:" + sql);
 
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY, ResultSet.CLOSE_CURSORS_AT_COMMIT);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		if(rs.next()){
+			System.out.println(rs.getType());
 			return rs;
 		} else {
 			return null;
@@ -212,7 +213,7 @@ public class DAOMercancia {
 
 		System.out.println("SQL stmt:" + sql);
 
-		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY, ResultSet.CLOSE_CURSORS_AT_COMMIT);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
 		if(rs.next()){

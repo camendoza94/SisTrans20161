@@ -166,7 +166,7 @@ public class PuertoAndesMaster {
 			daoAreaAlmacenamiento.setConn(conn);
 			conn.setAutoCommit(false);
 			int idMercancia = entrega.getMercancia().getId();
-			int idBuque = entrega.getBuque().getId();;
+			int idBuque = entrega.getBuque().getId();
 			float volumenMercancia = daoMercancia.getVolumenMercancia(idMercancia);
 			int idArea = daoMercancia.getAreaMercancia(idMercancia);
 			daoMercancia.deleteMercanciaArea(idMercancia, idArea);
@@ -323,51 +323,55 @@ public class PuertoAndesMaster {
 			conn.setAutoCommit(false);
 			ResultSet rs = daoBuque.getBuque(idBuque);
 			Buque buque = new Buque(idBuque, rs.getString("NOMBRE"), rs.getString("NOMBRE_AGENTE"),
-					rs.getFloat("CAPACIDAD"), rs.getBoolean("LLENO"), rs.getString("ERGISTRO_CAPITANIA"),
-					rs.getString("DESTINO"), rs.getString("ORIGEN"), tipoBuque.valueOf(rs.getString("TIPO")),
+					rs.getFloat("CAPACIDAD"), rs.getBoolean("LLENO"), rs.getString("REGISTRO_CAPITANIA"),
+					rs.getString("DESTINO"), rs.getString("ORIGEN"), tipoBuque.valueOf(rs.getString("TIPO_BUQUE")),
 					estado.valueOf(rs.getString("ESTADO")), null);
 			if (rs.getString("ESTADO").compareTo(estado.DISPONIBLE.name()) == 0) {
 				// TODO Check ResultSet is pointing to BeforeFirst
 				ResultSet rs2 = daoMercancia.getMercanciasDestino(rs.getString("DESTINO"));
 				int cantidad = 0;
-				while (rs2.next()) {
-					String tipoBuque = rs.getString("TIPO_BUQUE");
-					String tipoMercancia = rs2.getString("TIPO_CARGA");
-					if (tipoBuque.compareTo(vos.Buque.tipoBuque.RORO.name()) == 0
-							&& tipoMercancia.compareTo(vos.Buque.tipoMercancia.RODADA.name()) != 0) {
-						throw new Exception("Este buque no puede llevar una mercancia de este tipo");
-					} else if (tipoBuque.compareTo(vos.Buque.tipoBuque.PORTACONTENEDORES.name()) == 0
-							&& tipoMercancia.compareTo(vos.Buque.tipoMercancia.CONTENEDORES.name()) != 0) {
-						throw new Exception("Este buque no puede llevar una mercancia de este tipo");
-					} else {
-						if (rs2.getString("ESTADO").compareTo("DISPONIBLE") != 0) {
-							throw new Exception(
-									"El area de almacenamiento no está disponible en el momento para movimientos de carga");
+				if(rs2 != null){
+					while (rs2.next()) {
+						String tipoBuque = rs.getString("TIPO_BUQUE");
+						String tipoMercancia = rs2.getString("TIPO_CARGA");
+						if (tipoBuque.compareTo(vos.Buque.tipoBuque.RORO.name()) == 0
+								&& tipoMercancia.compareTo(vos.Buque.tipoMercancia.RODADA.name()) != 0) {
+							throw new Exception("Este buque no puede llevar una mercancia de este tipo");
+						} else if (tipoBuque.compareTo(vos.Buque.tipoBuque.PORTACONTENEDORES.name()) == 0
+								&& tipoMercancia.compareTo(vos.Buque.tipoMercancia.CONTENEDORES.name()) != 0) {
+							throw new Exception("Este buque no puede llevar una mercancia de este tipo");
+						} else {
+							if (rs2.getString("ESTADO").compareTo("DISPONIBLE") != 0) {
+								throw new Exception(
+										"El area de almacenamiento no está disponible en el momento para movimientos de carga");
+							}
 						}
+						cantidad += rs2.getFloat("VOLUMEN");
 					}
-					cantidad += rs2.getFloat("VOLUMEN");
+					if (cantidad > rs.getFloat("CAPACIDAD")) {
+						throw new Exception("El buque no tiene la capacidad suficiente");
+					}
+					rs2.beforeFirst();
+					while (rs2.next()) {
+						daoAlmacenamiento.updateEstado(rs2.getInt("ID_AREA"), estado.EN_PROCESO_DE_CARGA);
+					}
+					daoBuque.updateEstado(idBuque, estado.EN_PROCESO_DE_CARGA);
+					rs2.beforeFirst();
+					while (rs2.next()) {
+						Date hoy = new java.sql.Date(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)).getTime());
+						EntregaMercancia entrega = new EntregaMercancia(new Mercancia(rs2.getInt("ID_MERCANCIA")), hoy, hoy,
+								tipoEntrega.DESDE_AREA_ALMACENAMIENTO, new AreaAlmacenamiento(rs2.getInt("ID_AREA")), null,
+								new Buque(idBuque));
+						addCargaTipoABuque(entrega);
+					}
+					rs2.beforeFirst();
+					while (rs2.next()) {
+						daoAlmacenamiento.updateEstado(rs2.getInt("ID_AREA"), estado.DISPONIBLE);
+					}
+					daoBuque.updateEstado(idBuque, estado.DISPONIBLE);
+				} else {
+					throw new Exception("No hay carga para subir al buque");
 				}
-				if (cantidad > rs.getFloat("CAPACIDAD")) {
-					throw new Exception("El buque no tiene la capacidad suficiente");
-				}
-				rs2.beforeFirst();
-				while (rs2.next()) {
-					daoAlmacenamiento.updateEstado(rs2.getInt("ID_AREA"), estado.EN_PROCESO_DE_CARGA);
-				}
-				daoBuque.updateEstado(idBuque, estado.EN_PROCESO_DE_CARGA);
-				rs2.beforeFirst();
-				while (rs2.next()) {
-					Date hoy = new java.sql.Date(Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC)).getTime());
-					EntregaMercancia entrega = new EntregaMercancia(new Mercancia(rs2.getInt("ID_MERCANCIA")), hoy, hoy,
-							tipoEntrega.DESDE_AREA_ALMACENAMIENTO, new AreaAlmacenamiento(rs2.getInt("ID_AREA")), null,
-							new Buque(idBuque));
-					addCargaTipoABuque(entrega);
-				}
-				rs2.beforeFirst();
-				while (rs2.next()) {
-					daoAlmacenamiento.updateEstado(rs2.getInt("ID_AREA"), estado.DISPONIBLE);
-				}
-				daoBuque.updateEstado(idBuque, estado.DISPONIBLE);
 			} else {
 				throw new Exception("El barco no se encuentra disponible");
 			}

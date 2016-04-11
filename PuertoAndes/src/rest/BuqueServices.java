@@ -2,10 +2,10 @@ package rest;
 
 import javax.servlet.ServletContext;
 
-import javax.websocket.server.PathParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -68,14 +68,14 @@ public class BuqueServices {
 	
 	//RF10
 	@POST
-	@Path("/carga/{idBuque: \\d+}")
+	@Path("/carga/{id: \\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response cargarBuque(@PathParam("idBuque") int idBuque){
+	public Response cargarBuque(@PathParam("id") int id){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		Buque buque = new Buque();
 		try {
-			buque = tm.cargarBuque(idBuque);
+			buque = tm.cargarBuque(id);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -84,14 +84,14 @@ public class BuqueServices {
 	
 	//RF11
 	@POST
-	@Path("/descarga/{idBuque: \\d+}")
+	@Path("/descarga/{id: \\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response descargarBuque(@PathParam("idBuque") int idBuque, String destino){
+	public Response descargarBuque(@PathParam("id") int id, String destino){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		AreaAlmacenamiento area = new AreaAlmacenamiento();
 		try {
-			area = tm.descargarBuque(idBuque, destino);
+			area = tm.descargarBuque(id, destino);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
@@ -100,14 +100,14 @@ public class BuqueServices {
 	
 	//RF12
 	@POST
-	@Path("/deshabilitar/{idBuque: \\d+}")
+	@Path("/deshabilitar/{id: \\d+}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deshabilitarrBuque(@PathParam("idBuque") int idBuque, String tipo){
+	public Response deshabilitarBuque(@PathParam("id") int id, String tipo){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
 		Buque buque = new Buque();
 		try {
-			buque = tm.deshabilitarBuque(idBuque, tipo);
+			buque = tm.deshabilitarBuque(id, tipo);
 		} catch (Exception e) {
 			return Response.status(500).entity(doErrorMessage(e)).build();
 		}
