@@ -563,7 +563,13 @@ public class PuertoAndesMaster {
 		} catch (Exception e) {
 			System.err.println("GeneralException:" + e.getMessage());
 			e.printStackTrace();
-			conn.rollback();
+			if(carga != null){
+				conn.rollback(carga);
+			} else if(descarga != null){
+				conn.rollback(descarga);
+			} else {
+				conn.rollback();
+			}
 			throw e;
 		} finally {
 			try {
