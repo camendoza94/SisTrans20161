@@ -660,5 +660,40 @@ public class PuertoAndesMaster {
 			}
 		}
 	}
-
+	
+	//RFC7-8
+	public ArrayList<MovimientoBuque> consultarArribosSalidas2(Date fechaIni, Date fechaFin, String nombreBuque,
+			String tipo, boolean excluir) throws Exception {
+		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
+		DAOConsultas daoPuertoAndes = new DAOConsultas();
+		try {
+			////// Transacción
+			this.conn = darConexion();
+			daoPuertoAndes.setConn(conn);
+			movimientos = daoPuertoAndes.consultarArribosSalidas2(fechaIni, fechaFin, nombreBuque, tipoBuque.valueOf(tipo), excluir);
+			conn.commit();
+			return movimientos;
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			conn.rollback();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			conn.rollback();
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPuertoAndes.cerrarRecursos();
+				if (this.conn != null)
+					conn.rollback();
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
 }

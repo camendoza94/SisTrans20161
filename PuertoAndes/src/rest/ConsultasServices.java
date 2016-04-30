@@ -75,4 +75,34 @@ public class ConsultasServices {
 		}
 		return Response.status(200).entity(areas).build();
 	}
+	
+	//RFC7
+	@GET
+	@Path("/arribosSalidas2")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarArribosSalidas2(@QueryParam("fechaIni")Date fechaIni, @QueryParam("fechaFin")Date fechaFin,@QueryParam("nombreBuque") String nombreBuque, @QueryParam("tipoBuque") String tipoBuque){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		ArrayList<MovimientoBuque> movimientos;
+		try {
+			movimientos = tm.consultarArribosSalidas2(fechaIni,fechaFin,nombreBuque,tipoBuque, false);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(movimientos).build();
+	}
+	
+	//RFC8
+	@GET
+	@Path("/arribosSalidas3")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarArribosSalidas3(@QueryParam("fechaIni")Date fechaIni, @QueryParam("fechaFin")Date fechaFin,@QueryParam("nombreBuque") String nombreBuque, @QueryParam("tipoBuque") String tipoBuque){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		ArrayList<MovimientoBuque> movimientos;
+		try {
+			movimientos = tm.consultarArribosSalidas2(fechaIni,fechaFin,nombreBuque,tipoBuque, true);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(movimientos).build();
+	}
 }

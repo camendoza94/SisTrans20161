@@ -19,6 +19,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 import vos.*;
+import vos.Buque.tipoBuque;
 import vos.Buque.tipoMercancia;
 import vos.MovimientoBuque.tipoMovimiento;
 
@@ -182,5 +183,29 @@ public class DAOConsultas {
 			areasMasUtilizadas.add(AA);
 		}
 		return areasMasUtilizadas;
+	}
+
+	//RFC7-8
+	public ArrayList<MovimientoBuque> consultarArribosSalidas2(Date fechaIni, Date fechaFin,
+			String nombreBuque, tipoBuque tipoBuque, boolean excluir) throws SQLException {
+		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
+		String sql = "SELECT * FROM MOVIMIENTO_BUQUES WHERE FECHA BETWEEN TO_DATE('" + fechaIni + "','YYYY-MM-DD')";
+		sql += " AND TO_DATE('" + fechaFin + "','YYYY-MM-DD')";
+		sql += " AND ID_BUQUE";
+		if (excluir) {
+			sql += " NOT";
+		}
+		sql += " IN (SELECT ID_BUQUE FROM BUQUES WHERE NOMBRE ='"  + nombreBuque + "'";
+		sql += " AND TIPO_BUQUE ='" + tipoBuque.name() + "')";		
+
+		System.out.println("SQL stmt:" + sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		while(rs.next()){
+			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getString("PUERTO_ANTERIOR"), rs.getString("PUERTO_SIGUIENTE"), new Buque(rs.getInt("ID_BUQUE")), tipoMovimiento.valueOf(rs.getString("TIPO")));
+			movimientos.add(movimiento);
+		}
+		return movimientos;
 	}
 }
