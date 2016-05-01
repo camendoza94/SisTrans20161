@@ -1,0 +1,127 @@
+Sub datosBuque()
+    Dim i As Long
+    For i = 1 To 1000000
+        Cells(i, 1) = i + 100
+        Cells(i, 2) = "Barco" & i Mod 80
+        Cells(i, 3) = "Agente" & i Mod 80
+        Cells(i, 4) = Int((10000 - 100 + 1) * Rnd() + 100)
+        Cells(i, 5) = Int((2) * Rnd())
+        Cells(i, 6) = "Registro" & i Mod 80
+        Cells(i, 7) = "Ciudad" & Int((100 - 1 + 1) * Rnd() + 1)
+        Cells(i, 8) = "Ciudad" & Int((100 - 1 + 1) * Rnd() + 1)
+        Dim x As Double
+        x = Rnd()
+        If x > 0.67 Then
+            Cells(i, 9) = "RORO"
+        ElseIf x > 0.33 Then
+            Cells(i, 9) = "MULTIPROPOSITO"
+        Else
+            Cells(i, 9) = "PORTACONTENEDORES"
+        End If
+        Cells(i, 10) = "DISPONIBLE"
+    Next i
+End Sub
+
+Sub datosAlmacenamiento()
+    
+    Dim i As Long
+    
+    For i = 1 To 1000000
+            Cells(i, 1) = i + 25
+            Cells(i, 2) = Int((2) * Rnd())
+            Dim x As Double
+            x = Rnd()
+            If x > 0.8 Then
+            Cells(i, 3) = "CONTENEDOR"
+            ElseIf x > 0.6 Then
+            Cells(i, 3) = "GRANEL_SOLIDO"
+            ElseIf x > 0.4 Then
+             Cells(i, 3) = "GENERAL"
+             ElseIf x > 0.2 Then
+             Cells(i, 3) = "RODADA"
+             Else
+                 Cells(i, 3) = "GRANEL_LIQUIDO"
+                 End If
+            Cells(i, 4) = "DISPONIBLE"
+              
+            Cells(i, 5) = CDate(Int((42500 - 40000 + 1) * Rnd() + 40000))
+            Cells(i, 6) = Int((10000 - 100 + 1) * Rnd() + 10000)
+            
+            
+             
+    Next i
+End Sub
+
+Sub datosMovBuques()
+Dim i As Long
+For i = 1 To 1000000
+Cells(i, 1) = CDate(Int((42500 - 40000 + 1) * Rnd() + 40000))
+Cells(i, 2) = "PUERTO" & Int((100 - 1 + 1) * Rnd() + 1)
+Cells(i, 3) = "PUERTO" & Int((100 - 1 + 1) * Rnd() + 1)
+Cells(i, 4) = Int((1000101 - 1 + 1) * Rnd() + 1)
+Dim x As Double
+            x = Rnd()
+            If x > 0.3 Then
+            Cells(i, 5) = "ARRIBO"
+            Else
+                 Cells(i, 5) = "SALIDA"
+                 End If
+                 If (Cells(i, 2) = Cells(i, 3)) Then
+                 Cells(i, 3) = "PUERTO" & Int((20 - 10 + 1) * Rnd() + 10)
+                 End If
+                 
+    Next i
+End Sub
+
+Sub datosMercancias()
+    Dim i As Long
+    For i = 2 To 1000000
+        Cells(i, 1) = i + 49
+        Cells(i, 2) = Int((10000 - 100 + 1) * Rnd() + 100)
+        Dim x As Long
+        x = Rnd()
+        If x > 0.5 Then
+            Cells(i, 3) = "IMPORTACION"
+        Else
+            Cells(i, 3) = "EXPORTACION"
+        End If
+        Cells(i, 4) = Int((50 - 1 + 1) * Rnd() + 1)
+        Cells(i, 5) = Int((10000 - 1 + 1) * Rnd() + 1)
+        Cells(i, 6) = "Ciudad" & i Mod 80
+        Cells(i, 7) = "Ciudad" & i Mod 80
+        Cells(i, 8) = Int((50 - 1 + 1) * Rnd() + 1)
+        x = Rnd()
+        If x > 0.8 Then
+            Cells(i, 9) = "CONTENEDOR"
+        ElseIf x > 0.6 Then
+            Cells(i, 9) = "GRANEL_SOLIDO"
+        ElseIf x > 0.4 Then
+            Cells(i, 9) = "GENERAL"
+        ElseIf x > 0.2 Then
+            Cells(i, 9) = "RODADA"
+        Else
+            Cells(i, 9) = "GRANEL_LIQUIDO"
+        End If
+    Next i
+End Sub
+
+Sub datosUsuarios()
+    Dim i As Integer
+    For i = 2 To 10000
+        Cells(i, 1) = i + 19
+        Cells(i, 2) = "Usuario" & i Mod 5000
+        Dim x As Long
+        x = Rnd()
+        If x > 0.5 Then
+            Cells(i, 3) = "NATURAL"
+        Else
+            Cells(i, 3) = "JURIDICA"
+        End If
+        x = Rnd()
+        If x > 0.5 Then
+            Cells(i, 4) = "OPERADOR_PORTUARIO"
+        Else
+            Cells(i, 4) = "AGENTE_PORTUARIO"
+        End If
+    Next i
+End Sub

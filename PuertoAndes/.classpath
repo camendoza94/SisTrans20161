@@ -6,7 +6,5 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container/REST"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/Users/haes_/Documents/Uniandes/Sistrans/iteracion2/REST/WebContent/WEB-INF/lib/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/haes_/Documents/Uniandes/Sistrans/iteracion2/REST/WebContent/WEB-INF/lib/javax.ws.rs.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
