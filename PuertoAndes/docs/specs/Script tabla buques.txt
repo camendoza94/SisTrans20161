@@ -1,0 +1,23 @@
+Sub datos()
+    Dim i As Long
+    For i = 1 To 1000000
+        Cells(i, 1) = i + 100
+        Cells(i, 2) = "Barco" & i Mod 80
+        Cells(i, 3) = "Agente" & i Mod 80
+        Cells(i, 4) = Int((10000 - 100 + 1) * Rnd() + 100)
+        Cells(i, 5) = Int((2) * Rnd())
+        Cells(i, 6) = "Registro" & i Mod 80
+        Cells(i, 7) = "Ciudad" & Int((100 - 1 + 1) * Rnd() + 1)
+        Cells(i, 8) = "Ciudad" & Int((100 - 1 + 1) * Rnd() + 1)
+        Dim x As Double
+        x = Rnd()
+        If x > 0.67 Then
+            Cells(i, 9) = "RORO"
+        ElseIf x > 0.33 Then
+            Cells(i, 9) = "MULTIPROPOSITO"
+        Else
+            Cells(i, 9) = "PORTACONTENEDORES"
+        End If
+        Cells(i, 10) = "DISPONIBLE"
+    Next i
+End Sub
