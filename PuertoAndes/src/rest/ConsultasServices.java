@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -45,8 +46,8 @@ public class ConsultasServices {
 	private String doErrorMessage(Exception e){
 		return "{ \"ERROR\": \""+ e.getMessage() + "\"}" ;
 	}
-	
-	//RFC1
+
+	// RFC1
 	@GET
 	@Path("/arribosSalidas")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -82,7 +83,7 @@ public class ConsultasServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response consultarArribosSalidas2(@QueryParam("fechaIni")Date fechaIni, @QueryParam("fechaFin")Date fechaFin,@QueryParam("nombreBuque") String nombreBuque, @QueryParam("tipoBuque") String tipoBuque){
 		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
-		ArrayList<MovimientoBuque> movimientos;
+		List<MovimientoBuque> movimientos;
 		try {
 			movimientos = tm.consultarArribosSalidas2(fechaIni,fechaFin,nombreBuque,tipoBuque, false);
 		} catch (Exception e) {
@@ -105,4 +106,34 @@ public class ConsultasServices {
 		}
 		return Response.status(200).entity(movimientos).build();
 	}
+	
+	//RFC9
+	@GET
+	@Path("/movimientosCarga")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response consultarMovimientosCarga(@QueryParam("precio")float precio, @QueryParam("tipo")tipoMercancia tipo, @QueryParam("idPropietario") int idPropietario){
+		PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+		String respuesta = "";
+		try {
+			respuesta = tm.consultarMovimientosCarga(precio, tipo, idPropietario);
+		} catch (Exception e) {
+			return Response.status(500).entity(doErrorMessage(e)).build();
+		}
+		return Response.status(200).entity(respuesta).build();
+	}
+	
+	//RFC10
+		@GET
+		@Path("/movimientosAA")
+		@Produces(MediaType.APPLICATION_JSON)
+		public Response consultarMovimientosAA(@QueryParam("idArea1")int idArea1, @QueryParam("idArea2")int idArea2){
+			PuertoAndesMaster tm = new PuertoAndesMaster(getPath());
+			String respuesta = "";
+			try {
+				respuesta = tm.consultarMovimientosAA(idArea1, idArea2);
+			} catch (Exception e) {
+				return Response.status(500).entity(doErrorMessage(e)).build();
+			}
+			return Response.status(200).entity(respuesta).build();
+		}
 }

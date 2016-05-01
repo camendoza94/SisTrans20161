@@ -62,7 +62,7 @@ public class DAOBuque {
 	 * @throws SQLException
 	 */
 	public void updateCapacidad(int idBuque, float volumenMercancia) throws SQLException{
-		String sql = "UPDATE BUQUES SET CAPACIDAD=CAPACIDAD-"+ volumenMercancia;
+		String sql = "UPDATE BUQUES SET CAPACIDAD=CAPACIDAD+"+ volumenMercancia;
 		sql += " WHERE ID_BUQUE = " + idBuque;
 
 		System.out.println("SQL stmt:" + sql);

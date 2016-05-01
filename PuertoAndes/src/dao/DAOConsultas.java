@@ -12,8 +12,10 @@ package dao;
 
 import java.sql.Connection;
 import java.util.Date;
+import java.util.HashMap;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import vos.*;
 import vos.Buque.tipoBuque;
 import vos.Buque.tipoMercancia;
 import vos.MovimientoBuque.tipoMovimiento;
+
+import com.google.gson.Gson;
 
 /**
  * Clase DAO que se conecta la base de datos usando JDBC para resolver los requerimientos de la aplicación
@@ -49,7 +53,7 @@ public class DAOConsultas {
 	}
 
 	/**
-	 * Método que cierra todos los recursos que estan enel arreglo de recursos
+	 * Método que cierra todos los recursos que estan en el arreglo de recursos
 	 * <b>post: </b> Todos los recurso del arreglo de recursos han sido cerrados
 	 */
 	public void cerrarRecursos() {
@@ -196,16 +200,66 @@ public class DAOConsultas {
 			sql += " NOT";
 		}
 		sql += " IN (SELECT ID_BUQUE FROM BUQUES WHERE NOMBRE ='"  + nombreBuque + "'";
-		sql += " AND TIPO_BUQUE ='" + tipoBuque.name() + "')";		
+		sql += " AND TIPO_BUQUE ='" + tipoBuque.name() + "')";
 
 		System.out.println("SQL stmt:" + sql);
 		PreparedStatement prepStmt = conn.prepareStatement(sql);
 		recursos.add(prepStmt);
 		ResultSet rs = prepStmt.executeQuery();
-		while(rs.next()){
-			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getString("PUERTO_ANTERIOR"), rs.getString("PUERTO_SIGUIENTE"), new Buque(rs.getInt("ID_BUQUE")), tipoMovimiento.valueOf(rs.getString("TIPO")));
+		while (rs.next()) {
+			MovimientoBuque movimiento = new MovimientoBuque(rs.getDate("FECHA"), rs.getString("PUERTO_ANTERIOR"),
+					rs.getString("PUERTO_SIGUIENTE"), new Buque(rs.getInt("ID_BUQUE")),
+					tipoMovimiento.valueOf(rs.getString("TIPO_MOVIMIENTO")));
 			movimientos.add(movimiento);
 		}
 		return movimientos;
+	}
+	
+	// RCF9
+	public String consultarMovimientosCarga(float precio, tipoMercancia tipo, int idPropietario) throws SQLException {
+		String sql = "SELECT B.ID_MERCANCIA, B.ORIGEN, B.DESTINO, B.TIPO_CARGA, A.FECHA_ORDEN, A.FECHA_REALIZACION FROM ENTREGA_MERCANCIA A JOIN MERCANCIAS B ON A.ID_MERCANCIA = B.ID_MERCANCIA";
+		sql += " WHERE B.PRECIO>" + precio;
+		sql += " AND B.TIPO_CARGA='" + tipo.name() + "'";
+		if (idPropietario != -1)
+			sql += " AND B.PROPIETARIO=" + idPropietario;
+		System.out.println("SQL stmt:" + sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		ResultSetMetaData md = rs.getMetaData();
+		int columns = md.getColumnCount();
+		ArrayList<Object> list = new ArrayList<Object>();
+		while (rs.next()) {
+			HashMap<String, Object> row = new HashMap<String, Object>(columns);
+			for (int i = 1; i <= columns; ++i) {
+				row.put(md.getColumnName(i), rs.getObject(i));
+			}
+			list.add(row);
+		}
+
+		return new Gson().toJson(list);
+	}
+
+	// RCF10
+	public String consultarMovimientosAA(int idArea1, int idArea2) throws SQLException {
+		String sql = "SELECT DISTINCT A.*, B.ESTADO FROM ENTREGA_MERCANCIA A JOIN AREAS_ALMACENAMIENTO B ON B.ID_AREA = A.ID_AREA_ALMACENAMIENTO OR B.ID_AREA = A.ID_AREA_ALMACENAMIENTO_2";
+		sql += " WHERE A.ID_AREA_ALMACENAMIENTO IN (" + idArea1 + "," + idArea2 + ")";
+		sql += " OR A.ID_AREA_ALMACENAMIENTO_2 IN (" + idArea1 + "," + idArea2 + ")";
+		System.out.println("SQL stmt:" + sql);
+		PreparedStatement prepStmt = conn.prepareStatement(sql);
+		recursos.add(prepStmt);
+		ResultSet rs = prepStmt.executeQuery();
+		ResultSetMetaData md = rs.getMetaData();
+		int columns = md.getColumnCount();
+		ArrayList<Object> list = new ArrayList<Object>();
+		while (rs.next()) {
+			HashMap<String, Object> row = new HashMap<String, Object>(columns);
+			for (int i = 1; i <= columns; ++i) {
+				row.put(md.getColumnName(i), rs.getObject(i));
+			}
+			list.add(row);
+		}
+
+		return new Gson().toJson(list);
 	}
 }

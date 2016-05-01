@@ -29,12 +29,12 @@ public class DAOMercancia {
 	}
 	
 	/**
-	 * Método que cierra todos los recursos que estan enel arreglo de recursos
+	 * Método que cierra todos los recursos que estan en el arreglo de recursos
 	 * <b>post: </b> Todos los recurso del arreglo de recursos han sido cerrados
 	 */
 	public void cerrarRecursos() {
-		for(Object ob : recursos){
-			if(ob instanceof PreparedStatement)
+		for (Object ob : recursos) {
+			if (ob instanceof PreparedStatement)
 				try {
 					((PreparedStatement) ob).close();
 				} catch (Exception ex) {

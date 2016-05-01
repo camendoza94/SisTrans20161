@@ -637,6 +637,7 @@ public class PuertoAndesMaster {
 			////// Transacción
 			this.conn = darConexion();
 			daoPuertoAndes.setConn(conn);
+			conn.setAutoCommit(false);
 			areas = daoPuertoAndes.consultarAAMasUtilizada(fechaIni, fechaFin);
 			conn.commit();
 			return areas;
@@ -664,30 +665,82 @@ public class PuertoAndesMaster {
 	//RFC7-8
 	public ArrayList<MovimientoBuque> consultarArribosSalidas2(Date fechaIni, Date fechaFin, String nombreBuque,
 			String tipo, boolean excluir) throws Exception {
-		ArrayList<MovimientoBuque> movimientos = new ArrayList<MovimientoBuque>();
 		DAOConsultas daoPuertoAndes = new DAOConsultas();
 		try {
 			////// Transacción
 			this.conn = darConexion();
 			daoPuertoAndes.setConn(conn);
-			movimientos = daoPuertoAndes.consultarArribosSalidas2(fechaIni, fechaFin, nombreBuque, tipoBuque.valueOf(tipo), excluir);
-			conn.commit();
-			return movimientos;
+			return daoPuertoAndes.consultarArribosSalidas2(fechaIni, fechaFin, nombreBuque, tipoBuque.valueOf(tipo), excluir);
 		} catch (SQLException e) {
 			System.err.println("SQLException:" + e.getMessage());
 			e.printStackTrace();
-			conn.rollback();
 			throw e;
 		} catch (Exception e) {
 			System.err.println("GeneralException:" + e.getMessage());
-			conn.rollback();
 			e.printStackTrace();
 			throw e;
 		} finally {
 			try {
 				daoPuertoAndes.cerrarRecursos();
 				if (this.conn != null)
-					conn.rollback();
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	// RFC9
+	public String consultarMovimientosCarga(float precio, tipoMercancia tipo, int idPropietario) throws Exception {
+		DAOConsultas daoPuertoAndes = new DAOConsultas();
+		try {
+			////// Transacción
+			this.conn = darConexion();
+			daoPuertoAndes.setConn(conn);
+			return daoPuertoAndes.consultarMovimientosCarga(precio, tipo, idPropietario);
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPuertoAndes.cerrarRecursos();
+				if (this.conn != null)
+					this.conn.close();
+			} catch (SQLException exception) {
+				System.err.println("SQLException closing resources:" + exception.getMessage());
+				exception.printStackTrace();
+				throw exception;
+			}
+		}
+	}
+
+	// RFC9
+	public String consultarMovimientosAA(int idArea1, int idArea2) throws Exception {
+		DAOConsultas daoPuertoAndes = new DAOConsultas();
+		try {
+			////// Transacción
+			this.conn = darConexion();
+			daoPuertoAndes.setConn(conn);
+			return daoPuertoAndes.consultarMovimientosAA(idArea1, idArea2);
+		} catch (SQLException e) {
+			System.err.println("SQLException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} catch (Exception e) {
+			System.err.println("GeneralException:" + e.getMessage());
+			e.printStackTrace();
+			throw e;
+		} finally {
+			try {
+				daoPuertoAndes.cerrarRecursos();
+				if (this.conn != null)
 					this.conn.close();
 			} catch (SQLException exception) {
 				System.err.println("SQLException closing resources:" + exception.getMessage());
